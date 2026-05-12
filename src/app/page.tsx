@@ -31,7 +31,7 @@ import {
   Car,
   Plane,
   Shield,
-  Tag,
+  Briefcase,
   Menu,
   X,
   CheckCircle,
@@ -40,6 +40,7 @@ import {
   Timer,
   User,
   Send,
+  ChevronDown,
 } from "lucide-react";
 
 // Vehicle types with pricing
@@ -82,15 +83,15 @@ const vehicleTypes = [
   },
 ];
 
-// Airport routes
+// Airport routes - Only 4 airports as requested
 const airportRoutes = [
   {
-    name: "Stansted Airport",
-    code: "STN",
-    distance: 65,
-    basePrice: 80,
-    estimatedTime: "1h 15m",
-    image: "/airports/stansted.jpg",
+    name: "Heathrow Airport",
+    code: "LHR",
+    distance: 120,
+    basePrice: 150,
+    estimatedTime: "2h 15m",
+    image: "/airports/heathrow.jpg",
   },
   {
     name: "Gatwick Airport",
@@ -101,12 +102,12 @@ const airportRoutes = [
     image: "/airports/gatwick.jpg",
   },
   {
-    name: "Heathrow Airport",
-    code: "LHR",
-    distance: 120,
-    basePrice: 150,
-    estimatedTime: "2h 15m",
-    image: "/airports/heathrow.jpg",
+    name: "Stansted Airport",
+    code: "STN",
+    distance: 65,
+    basePrice: 80,
+    estimatedTime: "1h 15m",
+    image: "/airports/stansted.jpg",
   },
   {
     name: "Luton Airport",
@@ -116,47 +117,24 @@ const airportRoutes = [
     estimatedTime: "1h 45m",
     image: "/airports/luton.jpg",
   },
-  {
-    name: "Manchester Airport",
-    code: "MAN",
-    distance: 180,
-    basePrice: 220,
-    estimatedTime: "3h 30m",
-    image: "/airports/manchester.jpg",
-  },
-];
-
-// Services offered
-const services = [
-  {
-    icon: <Plane className="w-8 h-8" />,
-    title: "Airport Pickups",
-    description: "On-time arrivals",
-  },
-  {
-    icon: <Plane className="w-8 h-8" />,
-    title: "Airport Drop-offs",
-    description: "Stress-free travel",
-  },
-  {
-    icon: <Car className="w-8 h-8" />,
-    title: "Local Runs",
-    description: "Comfortable & safe",
-  },
-  {
-    icon: <Users className="w-8 h-8" />,
-    title: "Professional Drivers",
-    description: "Courteous & experienced",
-  },
 ];
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isQuoteTabOpen, setIsQuoteTabOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [selectedAirport, setSelectedAirport] = useState<string | null>(null);
+
+  // Enquiry form state
+  const [enquiryForm, setEnquiryForm] = useState({
+    pickupLocation: "",
+    dropoffLocation: "",
+    date: "",
+    time: "",
+    contact: "",
+  });
 
   // Booking form state
   const [bookingForm, setBookingForm] = useState({
@@ -248,7 +226,6 @@ export default function HomePage() {
 
   // Open booking with airport pre-selected
   const openAirportBooking = (airportName: string) => {
-    setSelectedAirport(airportName);
     setBookingForm((prev) => ({
       ...prev,
       dropoffLocation: airportName,
@@ -257,19 +234,19 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1A1A1A] text-white flex flex-col">
+    <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A1A1A]/95 backdrop-blur-sm border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo */}
+            {/* Logo - ALITAXIS NORWICH (removed LTD) */}
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center">
-                <Car className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                <span className="text-black font-bold text-lg sm:text-xl">A</span>
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-bold text-[#FFC107] tracking-wide">
-                  HALITAXIS
+                  ALITAXIS
                 </h1>
                 <p className="text-[10px] sm:text-xs text-white -mt-1">NORWICH</p>
               </div>
@@ -325,7 +302,7 @@ export default function HomePage() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-[#1A1A1A]/95 border-t border-white/10">
+          <div className="lg:hidden bg-black/95 border-t border-white/10">
             <nav className="flex flex-col p-4 gap-2">
               {[
                 { id: "home", label: "Home" },
@@ -369,6 +346,16 @@ export default function HomePage() {
         )}
       </header>
 
+      {/* Vertical Get Quote Tab - Fixed on right side */}
+      <button
+        onClick={() => setIsQuoteTabOpen(!isQuoteTabOpen)}
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#FFC107] text-black font-bold py-4 px-2 rounded-l-lg shadow-lg hover:bg-[#FFD54F] transition-colors lg:hidden"
+        style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+      >
+        Get Quote
+        <ChevronDown className="w-4 h-4 mt-2 rotate-[-90deg]" />
+      </button>
+
       {/* Hero Section */}
       <section id="home" className="relative pt-16 sm:pt-20 min-h-screen flex items-center">
         {/* Background */}
@@ -378,127 +365,150 @@ export default function HomePage() {
             alt="Taxi at night"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-black/70"></div>
         </div>
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column */}
-            <div className="text-center lg:text-left">
-              <Badge className="bg-[#FFC107]/20 text-[#FFC107] border-[#FFC107]/30 mb-4 sm:mb-6 px-4 py-2">
-                <Plane className="w-4 h-4 mr-2" />
-                Norwich's Trusted Taxi Service
-              </Badge>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4">
-                <span className="text-white">AIRPORT</span>
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+            {/* Left Column - Main Focus */}
+            <div className="lg:col-span-3 text-center lg:text-left">
+              {/* Main Headline - Big, Bold, Primary Focus */}
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-2 leading-none">
+                <span className="text-[#FFC107]">AIRPORT</span>
               </h1>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 leading-none">
                 <span className="text-[#FFC107]">TRANSFERS</span>
               </h1>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 sm:mb-8">
+                & Airport Runs
+              </h2>
+              
+              {/* Description - Focus on airport transfers */}
               <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
-                Reliable 24/7 airport transfers and local runs from Norwich to anywhere in the UK. 
+                Reliable 24/7 airport transfers from Norwich to all major UK airports. 
+                Professional drivers, comfortable vehicles, and fixed prices. 
                 Travel in comfort. Arrive on time. Every time.
               </p>
 
-              {/* Features */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Clock className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">24/7 Available</span>
+              {/* Service Badges - Highlighted */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 mb-8 sm:mb-10">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <Clock className="w-6 h-6 sm:w-7 sm:h-7 text-black" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-white font-medium">24/7 Available</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Shield className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">Licensed & Insured</span>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-black" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-white font-medium">Licensed & Insured</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Tag className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">Fixed Prices</span>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <Briefcase className="w-6 h-6 sm:w-7 sm:h-7 text-black" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-white font-medium">Fixed Prices</span>
                 </div>
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons - Focus on call & booking */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Button
                   onClick={() => setIsBookingOpen(true)}
                   size="lg"
-                  className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-full"
+                  className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold text-base sm:text-lg px-8 sm:px-10 py-6 sm:py-7 rounded-full"
                 >
                   Book Your Ride
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <a href="tel:077XXXXXXXX">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full sm:w-auto bg-white hover:bg-gray-100 text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-full border-0"
+                    className="w-full sm:w-auto bg-white hover:bg-gray-100 text-black font-bold text-base sm:text-lg px-8 sm:px-10 py-6 sm:py-7 rounded-full border-0"
                   >
-                    <Phone className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
+                    <Phone className="mr-2 w-5 h-5" />
                     Call Now
                   </Button>
                 </a>
               </div>
             </div>
 
-            {/* Right Column - Request Quote Form */}
-            <div className="w-full max-w-md mx-auto lg:max-w-none">
-              <Card className="bg-[#252525] border-white/10 backdrop-blur-sm">
-                <CardContent className="p-6 sm:p-8">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#FFC107] mb-2">
+            {/* Right Column - Compact Quote Form */}
+            <div className="lg:col-span-2 hidden lg:block">
+              <Card className="bg-[#1A1A1A]/90 border-white/10 backdrop-blur-sm">
+                <CardContent className="p-5">
+                  <h3 className="text-xl font-bold text-[#FFC107] mb-1">
                     Request Quote
                   </h3>
-                  <p className="text-gray-400 mb-6 text-sm sm:text-base">
-                    Send us your trip details and we'll get back to you with the best price.
+                  <p className="text-gray-400 mb-4 text-xs">
+                    Send us your trip details for a quick quote
                   </p>
-                  <form className="space-y-4">
+                  <form className="space-y-3">
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
                       <Input
                         placeholder="Pickup Location"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
-                        value={bookingForm.pickupLocation}
+                        className="bg-[#333] border-white/10 text-white pl-9 h-10 text-sm focus:border-[#FFC107]"
+                        value={enquiryForm.pickupLocation}
                         onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
+                          setEnquiryForm({ ...enquiryForm, pickupLocation: e.target.value })
                         }
                       />
                     </div>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
                       <Input
                         placeholder="Dropoff Location"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
-                        value={bookingForm.dropoffLocation}
+                        className="bg-[#333] border-white/10 text-white pl-9 h-10 text-sm focus:border-[#FFC107]"
+                        value={enquiryForm.dropoffLocation}
                         onChange={(e) =>
-                          setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
+                          setEnquiryForm({ ...enquiryForm, dropoffLocation: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input
+                        type="date"
+                        className="bg-[#333] border-white/10 text-white h-10 text-sm focus:border-[#FFC107]"
+                        value={enquiryForm.date}
+                        onChange={(e) =>
+                          setEnquiryForm({ ...enquiryForm, date: e.target.value })
+                        }
+                      />
+                      <Input
+                        type="time"
+                        className="bg-[#333] border-white/10 text-white h-10 text-sm focus:border-[#FFC107]"
+                        value={enquiryForm.time}
+                        onChange={(e) =>
+                          setEnquiryForm({ ...enquiryForm, time: e.target.value })
                         }
                       />
                     </div>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
                       <Input
-                        placeholder="Your Contact Number"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
-                        value={bookingForm.customerPhone}
+                        placeholder="Contact Number or Email"
+                        className="bg-[#333] border-white/10 text-white pl-9 h-10 text-sm focus:border-[#FFC107]"
+                        value={enquiryForm.contact}
                         onChange={(e) =>
-                          setBookingForm({ ...bookingForm, customerPhone: e.target.value })
+                          setEnquiryForm({ ...enquiryForm, contact: e.target.value })
                         }
                       />
                     </div>
                     <Button
                       type="button"
-                      onClick={() => {
-                        if (bookingForm.pickupLocation && bookingForm.dropoffLocation) {
-                          setIsBookingOpen(true);
-                        }
-                      }}
-                      className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full"
+                      onClick={() => setIsBookingOpen(true)}
+                      className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-10 rounded-full text-sm"
                     >
                       <Send className="w-4 h-4 mr-2" />
                       Send Enquiry
                     </Button>
                   </form>
-                  <p className="text-gray-500 text-center mt-4 text-xs sm:text-sm">
-                    Prefer to speak to us? Call{" "}
+                  <p className="text-gray-500 text-center mt-3 text-xs">
+                    Or call{" "}
                     <a href="tel:077XXXXXXXX" className="text-[#FFC107] hover:underline">
                       077 XXX XXXXXXX
                     </a>
@@ -508,174 +518,82 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Service Highlights Section */}
-      <section className="py-12 sm:py-16 bg-[#1A1A1A]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {services.map((service, index) => (
-              <Card
-                key={index}
-                className="bg-[#252525] border-white/10 hover:border-[#FFC107]/50 transition-all group"
-              >
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107]/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FFC107]/20 transition-colors">
-                    <div className="text-[#FFC107]">{service.icon}</div>
-                  </div>
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-gray-400 text-xs sm:text-sm">{service.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-[#FFC107]/50 rounded-full flex justify-center pt-2">
+            <div className="w-1.5 h-3 bg-[#FFC107] rounded-full animate-pulse"></div>
           </div>
         </div>
       </section>
 
-      {/* Book Taxi Section */}
-      <section id="book" className="py-16 sm:py-20 bg-[#252525]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-white">Book</span>{" "}
-              <span className="text-[#FFC107]">Your Taxi</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              Choose your vehicle and fill in your journey details. We'll provide you with an instant quote.
+      {/* Mobile Quote Form - Slide from right */}
+      {isQuoteTabOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div 
+            className="absolute inset-0 bg-black/80"
+            onClick={() => setIsQuoteTabOpen(false)}
+          ></div>
+          <div className="absolute right-0 top-0 bottom-0 w-80 bg-[#1A1A1A] p-6 overflow-y-auto">
+            <button
+              onClick={() => setIsQuoteTabOpen(false)}
+              className="absolute top-4 right-4 text-[#FFC107]"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h3 className="text-xl font-bold text-[#FFC107] mb-1 mt-8">
+              Request Quote
+            </h3>
+            <p className="text-gray-400 mb-4 text-sm">
+              Send us your trip details for a quick quote
             </p>
-          </div>
-
-          {/* Vehicle Selection */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12">
-            {vehicleTypes.map((vehicle) => (
-              <Card
-                key={vehicle.id}
-                className={`bg-[#1A1A1A] border-2 cursor-pointer transition-all hover:scale-105 ${
-                  bookingForm.vehicleType === vehicle.id
-                    ? "border-[#FFC107] shadow-lg shadow-[#FFC107]/20"
-                    : "border-white/10"
-                }`}
-                onClick={() => setBookingForm({ ...bookingForm, vehicleType: vehicle.id })}
+            <form className="space-y-4">
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
+                <Input
+                  placeholder="Pickup Location"
+                  className="bg-[#333] border-white/10 text-white pl-9 h-11 focus:border-[#FFC107]"
+                />
+              </div>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
+                <Input
+                  placeholder="Dropoff Location"
+                  className="bg-[#333] border-white/10 text-white pl-9 h-11 focus:border-[#FFC107]"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Input
+                  type="date"
+                  className="bg-[#333] border-white/10 text-white h-11 focus:border-[#FFC107]"
+                />
+                <Input
+                  type="time"
+                  className="bg-[#333] border-white/10 text-white h-11 focus:border-[#FFC107]"
+                />
+              </div>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC107]" />
+                <Input
+                  placeholder="Contact Number or Email"
+                  className="bg-[#333] border-white/10 text-white pl-9 h-11 focus:border-[#FFC107]"
+                />
+              </div>
+              <Button
+                type="button"
+                onClick={() => {
+                  setIsQuoteTabOpen(false);
+                  setIsBookingOpen(true);
+                }}
+                className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-11 rounded-full"
               >
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">{vehicle.icon}</div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">
-                    {vehicle.name}
-                  </h3>
-                  <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {vehicle.description}
-                  </p>
-                  <div className="flex justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
-                      <span>{vehicle.capacity}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Luggage className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
-                      <span>{vehicle.luggage}</span>
-                    </div>
-                  </div>
-                  <p className="text-[#FFC107] font-bold mt-3 sm:mt-4">
-                    £{vehicle.pricePerMile.toFixed(2)}/mile
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Mobile Booking Form */}
-          <div className="lg:hidden">
-            <Card className="bg-[#1A1A1A] border-white/10">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
-                    <Input
-                      placeholder="Pickup Location"
-                      className="bg-[#333] border-white/10 text-white pl-10 h-12"
-                      value={bookingForm.pickupLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
-                    <Input
-                      placeholder="Dropoff Location"
-                      className="bg-[#333] border-white/10 text-white pl-10 h-12"
-                      value={bookingForm.dropoffLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Input
-                        type="date"
-                        className="bg-[#333] border-white/10 text-white h-12"
-                        value={bookingForm.pickupDate}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupDate: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Input
-                        type="time"
-                        className="bg-[#333] border-white/10 text-white h-12"
-                        value={bookingForm.pickupTime}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupTime: e.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <Button
-                    onClick={() => setIsBookingOpen(true)}
-                    className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full"
-                  >
-                    Complete Booking
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Desktop Info Cards */}
-          <div className="hidden lg:grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-[#1A1A1A] border-white/10">
-              <CardContent className="p-6">
-                <Calendar className="w-10 h-10 text-[#FFC107] mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Easy Booking</h3>
-                <p className="text-gray-400">
-                  Book online or call us. We'll confirm your ride within minutes.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-[#1A1A1A] border-white/10">
-              <CardContent className="p-6">
-                <Shield className="w-10 h-10 text-[#FFC107] mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Safe & Reliable</h3>
-                <p className="text-gray-400">
-                  All drivers are DBS checked and vehicles are regularly maintained.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-[#1A1A1A] border-white/10">
-              <CardContent className="p-6">
-                <Tag className="w-10 h-10 text-[#FFC107] mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Fixed Pricing</h3>
-                <p className="text-gray-400">
-                  No hidden charges. The price you see is the price you pay.
-                </p>
-              </CardContent>
-            </Card>
+                <Send className="w-4 h-4 mr-2" />
+                Send Enquiry
+              </Button>
+            </form>
           </div>
         </div>
-      </section>
+      )}
 
       {/* Airport Transfers Section */}
       <section id="airports" className="py-16 sm:py-20 bg-[#1A1A1A]">
@@ -683,11 +601,23 @@ export default function HomePage() {
           <div className="text-center mb-10 sm:mb-12">
             <Badge className="bg-[#FFC107]/20 text-[#FFC107] border-[#FFC107]/30 mb-4">
               <Plane className="w-4 h-4 mr-2" />
-              Airport Transfers
+              🛫 Airport Transfers
             </Badge>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-white">Airport</span>{" "}
-              <span className="text-[#FFC107]">Transfer Services</span>
+              <span className="text-[#FFC107]">Heathrow</span>{" "}
+              <span className="text-white">Airport</span>
+            </h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              <span className="text-[#FFC107]">Gatwick</span>{" "}
+              <span className="text-white">Airport</span>
+            </h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              <span className="text-[#FFC107]">Stansted</span>{" "}
+              <span className="text-white">Airport</span>
+            </h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
+              <span className="text-[#FFC107]">Luton</span>{" "}
+              <span className="text-white">Airport</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
               Reliable airport transfers from Norwich to all major UK airports.
@@ -695,8 +625,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Airport Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Airport Cards - 4 airports only */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {airportRoutes.map((airport) => (
               <Card
                 key={airport.code}
@@ -713,10 +643,10 @@ export default function HomePage() {
                     <Badge className="bg-[#FFC107] text-black font-bold">{airport.code}</Badge>
                   </div>
                   <div className="absolute bottom-4 right-4">
-                    <Plane className="w-8 h-8 sm:w-12 sm:h-12 text-[#FFC107]" />
+                    <Plane className="w-8 h-8 sm:w-10 sm:h-10 text-[#FFC107]" />
                   </div>
                 </div>
-                <CardContent className="p-4 sm:p-6">
+                <CardContent className="p-4 sm:p-5">
                   <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{airport.name}</h3>
                   <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-4">
                     <div className="flex items-center gap-1">
@@ -770,17 +700,78 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Book Taxi Section */}
+      <section id="book" className="py-16 sm:py-20 bg-[#252525]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              <span className="text-white">Book</span>{" "}
+              <span className="text-[#FFC107]">Your Taxi</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+              Choose your vehicle and fill in your journey details.
+            </p>
+          </div>
+
+          {/* Vehicle Selection */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12">
+            {vehicleTypes.map((vehicle) => (
+              <Card
+                key={vehicle.id}
+                className={`bg-[#1A1A1A] border-2 cursor-pointer transition-all hover:scale-105 ${
+                  bookingForm.vehicleType === vehicle.id
+                    ? "border-[#FFC107] shadow-lg shadow-[#FFC107]/20"
+                    : "border-white/10"
+                }`}
+                onClick={() => setBookingForm({ ...bookingForm, vehicleType: vehicle.id })}
+              >
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">{vehicle.icon}</div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">
+                    {vehicle.name}
+                  </h3>
+                  <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
+                    {vehicle.description}
+                  </p>
+                  <div className="flex justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300">
+                    <div className="flex items-center gap-1">
+                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <span>{vehicle.capacity}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Luggage className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <span>{vehicle.luggage}</span>
+                    </div>
+                  </div>
+                  <p className="text-[#FFC107] font-bold mt-3 sm:mt-4">
+                    £{vehicle.pricePerMile.toFixed(2)}/mile
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button
+              onClick={() => setIsBookingOpen(true)}
+              size="lg"
+              className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold px-10 py-6 rounded-full"
+            >
+              Book Your Ride
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
-      <section id="services" className="py-16 sm:py-20 bg-[#252525]">
+      <section id="services" className="py-16 sm:py-20 bg-[#1A1A1A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-white">Why</span>{" "}
               <span className="text-[#FFC107]">Choose Us</span>
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              We're committed to providing the best taxi service in Norwich.
-            </p>
           </div>
 
           {/* Services Grid */}
@@ -789,7 +780,7 @@ export default function HomePage() {
               {
                 icon: <Clock className="w-8 h-8" />,
                 title: "24/7 Service",
-                description: "Available round the clock, every day",
+                description: "Available round the clock",
               },
               {
                 icon: <Shield className="w-8 h-8" />,
@@ -797,23 +788,23 @@ export default function HomePage() {
                 description: "Licensed drivers, insured vehicles",
               },
               {
-                icon: <Tag className="w-8 h-8" />,
+                icon: <Briefcase className="w-8 h-8" />,
                 title: "Fixed Prices",
-                description: "No hidden charges or surprises",
+                description: "No hidden charges",
               },
               {
                 icon: <Users className="w-8 h-8" />,
                 title: "Professional",
-                description: "Courteous and experienced drivers",
+                description: "Experienced drivers",
               },
             ].map((service, index) => (
               <Card
                 key={index}
-                className="bg-[#1A1A1A] border-white/10 hover:border-[#FFC107]/50 transition-all group"
+                className="bg-[#252525] border-white/10 hover:border-[#FFC107]/50 transition-all group"
               >
                 <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107]/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FFC107]/20 transition-colors">
-                    <div className="text-[#FFC107]">{service.icon}</div>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <div className="text-black">{service.icon}</div>
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{service.title}</h3>
                   <p className="text-gray-400 text-sm">{service.description}</p>
@@ -825,7 +816,7 @@ export default function HomePage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 bg-[#1A1A1A]">
+      <section id="contact" className="py-16 sm:py-20 bg-[#252525]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
             {/* Contact Info */}
@@ -835,13 +826,13 @@ export default function HomePage() {
                 <span className="text-[#FFC107]">Us</span>
               </h2>
               <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
-                Have questions or need a quote? Get in touch with us. We're available 24/7.
+                Have questions? Get in touch with us. We're available 24/7.
               </p>
 
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Phone</p>
@@ -852,8 +843,8 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Email</p>
@@ -864,22 +855,12 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Location</p>
                     <p className="text-white font-semibold text-sm sm:text-base">Norwich, UK</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">Hours</p>
-                    <p className="text-white font-semibold text-sm sm:text-base">24/7 Available</p>
                   </div>
                 </div>
               </div>
@@ -887,7 +868,7 @@ export default function HomePage() {
 
             {/* Contact Form */}
             <div>
-              <Card className="bg-[#252525] border-white/10">
+              <Card className="bg-[#1A1A1A] border-white/10">
                 <CardContent className="p-4 sm:p-6 lg:p-8">
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
                     Send us a Message
@@ -925,22 +906,22 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#252525] border-t border-white/10 mt-auto">
+      <footer className="bg-black border-t border-white/10 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {/* Company Info */}
             <div>
               <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#FFC107] rounded-full flex items-center justify-center">
-                  <Car className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                  <span className="text-black font-bold text-sm sm:text-base">A</span>
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#FFC107]">HALITAXIS</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-[#FFC107]">ALITAXIS</h3>
                   <p className="text-xs text-white">NORWICH</p>
                 </div>
               </div>
               <p className="text-gray-400 text-xs sm:text-sm">
-                Your trusted partner for airport transfers and local taxi services from Norwich.
+                Your trusted partner for airport transfers from Norwich.
               </p>
             </div>
 
@@ -961,7 +942,7 @@ export default function HomePage() {
               </ul>
             </div>
 
-            {/* Airport Transfers */}
+            {/* Airport Transfers - Only 4 airports */}
             <div>
               <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Airport Transfers</h4>
               <ul className="space-y-1.5 sm:space-y-2">
@@ -1001,7 +982,7 @@ export default function HomePage() {
           {/* Bottom Bar */}
           <div className="border-t border-white/10 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
             <p className="text-gray-500 text-xs sm:text-sm">
-              © {new Date().getFullYear()} Halitaxis Norwich. All rights reserved.
+              © {new Date().getFullYear()} Alitaxis Norwich. All rights reserved.
             </p>
           </div>
         </div>
@@ -1009,13 +990,13 @@ export default function HomePage() {
 
       {/* Booking Dialog */}
       <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
-        <DialogContent className="bg-[#252525] border-white/10 max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-[#1A1A1A] border-white/10 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-[#FFC107]">
-              Complete Your Booking
+              Book Your Ride
             </DialogTitle>
             <DialogDescription className="text-gray-400">
-              Fill in your details to confirm your taxi booking
+              Fill in your details to confirm your booking
             </DialogDescription>
           </DialogHeader>
 
@@ -1053,7 +1034,7 @@ export default function HomePage() {
                     <Label className="text-gray-300">Dropoff Location</Label>
                     <Input
                       required
-                      placeholder="e.g., Stansted Airport"
+                      placeholder="e.g., Heathrow Airport"
                       className="bg-[#333] border-white/10 text-white mt-1 h-11"
                       value={bookingForm.dropoffLocation}
                       onChange={(e) =>
@@ -1103,7 +1084,7 @@ export default function HomePage() {
                       <SelectContent className="bg-[#333] border-white/10">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                           <SelectItem key={n} value={n.toString()}>
-                            {n} {n === 1 ? "Passenger" : "Passengers"}
+                            {n}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -1123,14 +1104,14 @@ export default function HomePage() {
                       <SelectContent className="bg-[#333] border-white/10">
                         {[0, 1, 2, 3, 4, 5, 6].map((n) => (
                           <SelectItem key={n} value={n.toString()}>
-                            {n} {n === 1 ? "Bag" : "Bags"}
+                            {n}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-gray-300">Vehicle Type</Label>
+                    <Label className="text-gray-300">Vehicle</Label>
                     <Select
                       value={bookingForm.vehicleType}
                       onValueChange={(value) =>
@@ -1197,39 +1178,6 @@ export default function HomePage() {
                     }
                   />
                 </div>
-                <div>
-                  <Label className="text-gray-300">Special Requests (Optional)</Label>
-                  <Textarea
-                    placeholder="Any special requirements?"
-                    className="bg-[#333] border-white/10 text-white mt-1"
-                    value={bookingForm.specialRequests}
-                    onChange={(e) =>
-                      setBookingForm({ ...bookingForm, specialRequests: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
-
-              {/* Price Estimate */}
-              <div className="bg-[#FFC107]/10 border border-[#FFC107]/30 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300">Estimated Price</span>
-                  <span className="text-2xl font-bold text-[#FFC107]">
-                    £{(() => {
-                      const vehicle = vehicleTypes.find((v) => v.id === bookingForm.vehicleType);
-                      const airport = airportRoutes.find((a) =>
-                        bookingForm.dropoffLocation.toLowerCase().includes(a.name.toLowerCase())
-                      );
-                      if (airport && vehicle) {
-                        return Math.round(airport.basePrice * (vehicle.pricePerMile / 2));
-                      }
-                      return "Contact for Quote";
-                    })()}
-                  </span>
-                </div>
-                <p className="text-gray-500 text-xs mt-2">
-                  Final price will be confirmed after booking review
-                </p>
               </div>
 
               <Button

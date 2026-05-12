@@ -31,15 +31,14 @@ import {
   Car,
   Plane,
   Shield,
-  Tag,
+  CreditCard,
+  Star,
   Menu,
   X,
   CheckCircle,
   ArrowRight,
   Calendar,
   Timer,
-  User,
-  Send,
 } from "lucide-react";
 
 // Vehicle types with pricing
@@ -130,23 +129,23 @@ const airportRoutes = [
 const services = [
   {
     icon: <Plane className="w-8 h-8" />,
-    title: "Airport Pickups",
-    description: "On-time arrivals",
+    title: "Airport Transfers",
+    description: "Reliable transfers to all major UK airports",
   },
   {
-    icon: <Plane className="w-8 h-8" />,
-    title: "Airport Drop-offs",
-    description: "Stress-free travel",
+    icon: <MapPin className="w-8 h-8" />,
+    title: "Long Distance",
+    description: "Comfortable travel to any UK destination",
   },
   {
-    icon: <Car className="w-8 h-8" />,
-    title: "Local Runs",
-    description: "Comfortable & safe",
+    icon: <Clock className="w-8 h-8" />,
+    title: "24/7 Service",
+    description: "Available round the clock, every day",
   },
   {
-    icon: <Users className="w-8 h-8" />,
-    title: "Professional Drivers",
-    description: "Courteous & experienced",
+    icon: <Shield className="w-8 h-8" />,
+    title: "Safe & Secure",
+    description: "Licensed drivers, insured vehicles",
   },
 ];
 
@@ -257,21 +256,21 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1A1A1A] text-white flex flex-col">
+    <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1A1A1A]/95 backdrop-blur-sm border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-yellow-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500 rounded-full flex items-center justify-center">
                 <Car className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-xl font-bold text-[#FFC107] tracking-wide">
-                  HALITAXIS
+                <h1 className="text-lg sm:text-xl font-bold text-yellow-500 tracking-wide">
+                  ALITAXIS
                 </h1>
-                <p className="text-[10px] sm:text-xs text-white -mt-1">NORWICH</p>
+                <p className="text-[10px] sm:text-xs text-gray-400 -mt-1">NORWICH LTD</p>
               </div>
             </div>
 
@@ -287,8 +286,8 @@ export default function HomePage() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-[#FFC107] ${
-                    activeSection === item.id ? "text-[#FFC107]" : "text-white"
+                  className={`text-sm font-medium transition-colors hover:text-yellow-500 ${
+                    activeSection === item.id ? "text-yellow-500" : "text-gray-300"
                   }`}
                 >
                   {item.label}
@@ -300,14 +299,14 @@ export default function HomePage() {
             <div className="hidden lg:flex items-center gap-4">
               <a
                 href="tel:077XXXXXXXX"
-                className="flex items-center gap-2 text-white font-medium hover:text-[#FFC107] transition-colors"
+                className="flex items-center gap-2 text-yellow-500 font-semibold"
               >
                 <Phone className="w-4 h-4" />
-                <span>077 XXX XXXXXXX</span>
+                <span>077 XXX XXXXXX</span>
               </a>
               <Button
                 onClick={() => setIsBookingOpen(true)}
-                className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold px-6 rounded-full"
+                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-6"
               >
                 Book Now
               </Button>
@@ -316,7 +315,7 @@ export default function HomePage() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden text-[#FFC107] p-2"
+              className="lg:hidden text-yellow-500 p-2"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -325,7 +324,7 @@ export default function HomePage() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-[#1A1A1A]/95 border-t border-white/10">
+          <div className="lg:hidden bg-black/95 border-t border-yellow-500/20">
             <nav className="flex flex-col p-4 gap-2">
               {[
                 { id: "home", label: "Home" },
@@ -339,27 +338,27 @@ export default function HomePage() {
                   onClick={() => scrollToSection(item.id)}
                   className={`text-left py-3 px-4 rounded-lg font-medium transition-colors ${
                     activeSection === item.id
-                      ? "bg-[#FFC107]/10 text-[#FFC107]"
-                      : "text-white hover:bg-white/5"
+                      ? "bg-yellow-500/10 text-yellow-500"
+                      : "text-gray-300 hover:bg-gray-800"
                   }`}
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="mt-4 pt-4 border-t border-white/10">
+              <div className="mt-4 pt-4 border-t border-gray-800">
                 <a
                   href="tel:077XXXXXXXX"
-                  className="flex items-center gap-2 text-white font-medium py-2 px-4"
+                  className="flex items-center gap-2 text-yellow-500 font-semibold py-2 px-4"
                 >
                   <Phone className="w-4 h-4" />
-                  <span>077 XXX XXXXXXX</span>
+                  <span>077 XXX XXXXXX</span>
                 </a>
                 <Button
                   onClick={() => {
                     setIsBookingOpen(true);
                     setIsMenuOpen(false);
                   }}
-                  className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold mt-2 rounded-full"
+                  className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold mt-2"
                 >
                   Book Now
                 </Button>
@@ -372,48 +371,42 @@ export default function HomePage() {
       {/* Hero Section */}
       <section id="home" className="relative pt-16 sm:pt-20 min-h-screen flex items-center">
         {/* Background */}
-        <div className="absolute inset-0">
-          <img 
-            src="/hero-bg.jpg" 
-            alt="Taxi at night"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+          <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Column */}
             <div className="text-center lg:text-left">
-              <Badge className="bg-[#FFC107]/20 text-[#FFC107] border-[#FFC107]/30 mb-4 sm:mb-6 px-4 py-2">
-                <Plane className="w-4 h-4 mr-2" />
+              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 mb-4 sm:mb-6">
                 Norwich's Trusted Taxi Service
               </Badge>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4">
-                <span className="text-white">AIRPORT</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
+                <span className="text-yellow-500">ALITAXIS</span>
+                <br />
+                <span className="text-white text-2xl sm:text-3xl md:text-4xl">NORWICH LTD</span>
               </h1>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6">
-                <span className="text-[#FFC107]">TRANSFERS</span>
-              </h1>
-              <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
-                Reliable 24/7 airport transfers and local runs from Norwich to anywhere in the UK. 
-                Travel in comfort. Arrive on time. Every time.
+              <p className="text-gray-300 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
+                Your reliable partner for long-distance taxi services and airport transfers.
+                Travel in comfort from Norwich to anywhere in the UK.
               </p>
 
               {/* Features */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Clock className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">24/7 Available</span>
+                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
+                  <Clock className="w-4 h-4 text-yellow-500" />
+                  <span className="text-xs sm:text-sm text-yellow-500">24/7 Available</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Shield className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">Licensed & Insured</span>
+                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
+                  <Shield className="w-4 h-4 text-yellow-500" />
+                  <span className="text-xs sm:text-sm text-yellow-500">Licensed & Insured</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full border border-white/10">
-                  <Tag className="w-4 h-4 text-[#FFC107]" />
-                  <span className="text-xs sm:text-sm text-white">Fixed Prices</span>
+                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
+                  <CreditCard className="w-4 h-4 text-yellow-500" />
+                  <span className="text-xs sm:text-sm text-yellow-500">Fixed Prices</span>
                 </div>
               </div>
 
@@ -422,7 +415,7 @@ export default function HomePage() {
                 <Button
                   onClick={() => setIsBookingOpen(true)}
                   size="lg"
-                  className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-full"
+                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
                 >
                   Book Your Ride
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
@@ -431,7 +424,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full sm:w-auto bg-white hover:bg-gray-100 text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-full border-0"
+                    className="w-full sm:w-auto border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
                   >
                     <Phone className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
                     Call Now
@@ -440,108 +433,91 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column - Request Quote Form */}
-            <div className="w-full max-w-md mx-auto lg:max-w-none">
-              <Card className="bg-[#252525] border-white/10 backdrop-blur-sm">
+            {/* Right Column - Quick Booking Card */}
+            <div className="hidden lg:block">
+              <Card className="bg-gray-900/80 border-yellow-500/20 backdrop-blur-sm">
                 <CardContent className="p-6 sm:p-8">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#FFC107] mb-2">
-                    Request Quote
+                  <h3 className="text-xl sm:text-2xl font-bold text-yellow-500 mb-6">
+                    Quick Quote
                   </h3>
-                  <p className="text-gray-400 mb-6 text-sm sm:text-base">
-                    Send us your trip details and we'll get back to you with the best price.
-                  </p>
-                  <form className="space-y-4">
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-gray-300">Pickup Location</Label>
                       <Input
-                        placeholder="Pickup Location"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
+                        placeholder="Enter pickup address"
+                        className="bg-gray-800 border-gray-700 text-white mt-1"
                         value={bookingForm.pickupLocation}
                         onChange={(e) =>
                           setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
                         }
                       />
                     </div>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                    <div>
+                      <Label className="text-gray-300">Dropoff Location</Label>
                       <Input
-                        placeholder="Dropoff Location"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
+                        placeholder="Enter destination"
+                        className="bg-gray-800 border-gray-700 text-white mt-1"
                         value={bookingForm.dropoffLocation}
                         onChange={(e) =>
                           setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
                         }
                       />
                     </div>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
-                      <Input
-                        placeholder="Your Contact Number"
-                        className="bg-[#333] border-white/10 text-white pl-10 h-12 focus:border-[#FFC107] focus:ring-[#FFC107]"
-                        value={bookingForm.customerPhone}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, customerPhone: e.target.value })
-                        }
-                      />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-gray-300">Date</Label>
+                        <Input
+                          type="date"
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                          value={bookingForm.pickupDate}
+                          onChange={(e) =>
+                            setBookingForm({ ...bookingForm, pickupDate: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-gray-300">Time</Label>
+                        <Input
+                          type="time"
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                          value={bookingForm.pickupTime}
+                          onChange={(e) =>
+                            setBookingForm({ ...bookingForm, pickupTime: e.target.value })
+                          }
+                        />
+                      </div>
                     </div>
                     <Button
-                      type="button"
-                      onClick={() => {
-                        if (bookingForm.pickupLocation && bookingForm.dropoffLocation) {
-                          setIsBookingOpen(true);
-                        }
-                      }}
-                      className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full"
+                      onClick={() => setIsBookingOpen(true)}
+                      className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6"
                     >
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Enquiry
+                      Get Quote & Book
                     </Button>
-                  </form>
-                  <p className="text-gray-500 text-center mt-4 text-xs sm:text-sm">
-                    Prefer to speak to us? Call{" "}
-                    <a href="tel:077XXXXXXXX" className="text-[#FFC107] hover:underline">
-                      077 XXX XXXXXXX
-                    </a>
-                  </p>
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Service Highlights Section */}
-      <section className="py-12 sm:py-16 bg-[#1A1A1A]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {services.map((service, index) => (
-              <Card
-                key={index}
-                className="bg-[#252525] border-white/10 hover:border-[#FFC107]/50 transition-all group"
-              >
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107]/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FFC107]/20 transition-colors">
-                    <div className="text-[#FFC107]">{service.icon}</div>
-                  </div>
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-gray-400 text-xs sm:text-sm">{service.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-yellow-500/50 rounded-full flex justify-center pt-2">
+            <div className="w-1.5 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
           </div>
         </div>
       </section>
 
       {/* Book Taxi Section */}
-      <section id="book" className="py-16 sm:py-20 bg-[#252525]">
+      <section id="book" className="py-16 sm:py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-white">Book</span>{" "}
-              <span className="text-[#FFC107]">Your Taxi</span>
+              <span className="text-yellow-500">Book</span> Your Taxi
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              Choose your vehicle and fill in your journey details. We'll provide you with an instant quote.
+              Fill in your journey details and we'll provide you with an instant quote.
+              Long-distance travel made easy.
             </p>
           </div>
 
@@ -550,10 +526,10 @@ export default function HomePage() {
             {vehicleTypes.map((vehicle) => (
               <Card
                 key={vehicle.id}
-                className={`bg-[#1A1A1A] border-2 cursor-pointer transition-all hover:scale-105 ${
+                className={`bg-gray-800 border-2 cursor-pointer transition-all hover:scale-105 ${
                   bookingForm.vehicleType === vehicle.id
-                    ? "border-[#FFC107] shadow-lg shadow-[#FFC107]/20"
-                    : "border-white/10"
+                    ? "border-yellow-500 shadow-lg shadow-yellow-500/20"
+                    : "border-gray-700"
                 }`}
                 onClick={() => setBookingForm({ ...bookingForm, vehicleType: vehicle.id })}
               >
@@ -567,15 +543,15 @@ export default function HomePage() {
                   </p>
                   <div className="flex justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300">
                     <div className="flex items-center gap-1">
-                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                       <span>{vehicle.capacity}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Luggage className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <Luggage className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                       <span>{vehicle.luggage}</span>
                     </div>
                   </div>
-                  <p className="text-[#FFC107] font-bold mt-3 sm:mt-4">
+                  <p className="text-yellow-500 font-bold mt-3 sm:mt-4">
                     £{vehicle.pricePerMile.toFixed(2)}/mile
                   </p>
                 </CardContent>
@@ -585,25 +561,25 @@ export default function HomePage() {
 
           {/* Mobile Booking Form */}
           <div className="lg:hidden">
-            <Card className="bg-[#1A1A1A] border-white/10">
+            <Card className="bg-gray-800 border-gray-700">
               <CardContent className="p-4 sm:p-6">
                 <div className="space-y-4">
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                  <div>
+                    <Label className="text-gray-300">Pickup Location</Label>
                     <Input
-                      placeholder="Pickup Location"
-                      className="bg-[#333] border-white/10 text-white pl-10 h-12"
+                      placeholder="Enter pickup address"
+                      className="bg-gray-700 border-gray-600 text-white mt-1"
                       value={bookingForm.pickupLocation}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
                       }
                     />
                   </div>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFC107]" />
+                  <div>
+                    <Label className="text-gray-300">Dropoff Location</Label>
                     <Input
-                      placeholder="Dropoff Location"
-                      className="bg-[#333] border-white/10 text-white pl-10 h-12"
+                      placeholder="Enter destination"
+                      className="bg-gray-700 border-gray-600 text-white mt-1"
                       value={bookingForm.dropoffLocation}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
@@ -612,9 +588,10 @@ export default function HomePage() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
+                      <Label className="text-gray-300">Date</Label>
                       <Input
                         type="date"
-                        className="bg-[#333] border-white/10 text-white h-12"
+                        className="bg-gray-700 border-gray-600 text-white mt-1"
                         value={bookingForm.pickupDate}
                         onChange={(e) =>
                           setBookingForm({ ...bookingForm, pickupDate: e.target.value })
@@ -622,9 +599,10 @@ export default function HomePage() {
                       />
                     </div>
                     <div>
+                      <Label className="text-gray-300">Time</Label>
                       <Input
                         type="time"
-                        className="bg-[#333] border-white/10 text-white h-12"
+                        className="bg-gray-700 border-gray-600 text-white mt-1"
                         value={bookingForm.pickupTime}
                         onChange={(e) =>
                           setBookingForm({ ...bookingForm, pickupTime: e.target.value })
@@ -634,7 +612,7 @@ export default function HomePage() {
                   </div>
                   <Button
                     onClick={() => setIsBookingOpen(true)}
-                    className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full"
+                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6"
                   >
                     Complete Booking
                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -646,27 +624,27 @@ export default function HomePage() {
 
           {/* Desktop Info Cards */}
           <div className="hidden lg:grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-[#1A1A1A] border-white/10">
+            <Card className="bg-gray-800 border-gray-700">
               <CardContent className="p-6">
-                <Calendar className="w-10 h-10 text-[#FFC107] mb-4" />
+                <Calendar className="w-10 h-10 text-yellow-500 mb-4" />
                 <h3 className="text-xl font-bold text-white mb-2">Easy Booking</h3>
                 <p className="text-gray-400">
                   Book online or call us. We'll confirm your ride within minutes.
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-[#1A1A1A] border-white/10">
+            <Card className="bg-gray-800 border-gray-700">
               <CardContent className="p-6">
-                <Shield className="w-10 h-10 text-[#FFC107] mb-4" />
+                <Shield className="w-10 h-10 text-yellow-500 mb-4" />
                 <h3 className="text-xl font-bold text-white mb-2">Safe & Reliable</h3>
                 <p className="text-gray-400">
                   All drivers are DBS checked and vehicles are regularly maintained.
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-[#1A1A1A] border-white/10">
+            <Card className="bg-gray-800 border-gray-700">
               <CardContent className="p-6">
-                <Tag className="w-10 h-10 text-[#FFC107] mb-4" />
+                <CreditCard className="w-10 h-10 text-yellow-500 mb-4" />
                 <h3 className="text-xl font-bold text-white mb-2">Fixed Pricing</h3>
                 <p className="text-gray-400">
                   No hidden charges. The price you see is the price you pay.
@@ -678,16 +656,14 @@ export default function HomePage() {
       </section>
 
       {/* Airport Transfers Section */}
-      <section id="airports" className="py-16 sm:py-20 bg-[#1A1A1A]">
+      <section id="airports" className="py-16 sm:py-20 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12">
-            <Badge className="bg-[#FFC107]/20 text-[#FFC107] border-[#FFC107]/30 mb-4">
-              <Plane className="w-4 h-4 mr-2" />
+            <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 mb-4">
               Airport Transfers
             </Badge>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-white">Airport</span>{" "}
-              <span className="text-[#FFC107]">Transfer Services</span>
+              <span className="text-yellow-500">Airport</span> Transfer Services
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
               Reliable airport transfers from Norwich to all major UK airports.
@@ -700,7 +676,7 @@ export default function HomePage() {
             {airportRoutes.map((airport) => (
               <Card
                 key={airport.code}
-                className="bg-[#252525] border-white/10 hover:border-[#FFC107]/50 transition-all overflow-hidden group"
+                className="bg-gray-900 border-gray-800 hover:border-yellow-500/50 transition-all overflow-hidden group"
               >
                 <div className="h-32 sm:h-40 relative overflow-hidden">
                   <img 
@@ -710,34 +686,34 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-[#FFC107] text-black font-bold">{airport.code}</Badge>
+                    <Badge className="bg-yellow-500 text-black font-bold">{airport.code}</Badge>
                   </div>
                   <div className="absolute bottom-4 right-4">
-                    <Plane className="w-8 h-8 sm:w-12 sm:h-12 text-[#FFC107]" />
+                    <Plane className="w-8 h-8 sm:w-12 sm:h-12 text-yellow-500" />
                   </div>
                 </div>
                 <CardContent className="p-4 sm:p-6">
                   <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{airport.name}</h3>
                   <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-4">
                     <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                       <span>{airport.distance} miles</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Timer className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                      <Timer className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                       <span>{airport.estimatedTime}</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-xs">From</p>
-                      <p className="text-xl sm:text-2xl font-bold text-[#FFC107]">
+                      <p className="text-xl sm:text-2xl font-bold text-yellow-500">
                         £{airport.basePrice}
                       </p>
                     </div>
                     <Button
                       onClick={() => openAirportBooking(airport.name)}
-                      className="bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold rounded-full"
+                      className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold"
                     >
                       Book Now
                     </Button>
@@ -749,10 +725,10 @@ export default function HomePage() {
 
           {/* Flight Monitoring Note */}
           <div className="mt-10 sm:mt-12 text-center">
-            <Card className="inline-block bg-[#FFC107]/10 border-[#FFC107]/30">
+            <Card className="inline-block bg-yellow-500/10 border-yellow-500/30">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                   </div>
                   <div className="text-left">
@@ -771,49 +747,28 @@ export default function HomePage() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 sm:py-20 bg-[#252525]">
+      <section id="services" className="py-16 sm:py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-white">Why</span>{" "}
-              <span className="text-[#FFC107]">Choose Us</span>
+              Why <span className="text-yellow-500">Choose</span> Us
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
               We're committed to providing the best taxi service in Norwich.
+              Here's what makes us different.
             </p>
           </div>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              {
-                icon: <Clock className="w-8 h-8" />,
-                title: "24/7 Service",
-                description: "Available round the clock, every day",
-              },
-              {
-                icon: <Shield className="w-8 h-8" />,
-                title: "Safe & Secure",
-                description: "Licensed drivers, insured vehicles",
-              },
-              {
-                icon: <Tag className="w-8 h-8" />,
-                title: "Fixed Prices",
-                description: "No hidden charges or surprises",
-              },
-              {
-                icon: <Users className="w-8 h-8" />,
-                title: "Professional",
-                description: "Courteous and experienced drivers",
-              },
-            ].map((service, index) => (
+            {services.map((service, index) => (
               <Card
                 key={index}
-                className="bg-[#1A1A1A] border-white/10 hover:border-[#FFC107]/50 transition-all group"
+                className="bg-gray-800 border-gray-700 hover:border-yellow-500/50 transition-all group"
               >
                 <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#FFC107]/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FFC107]/20 transition-colors">
-                    <div className="text-[#FFC107]">{service.icon}</div>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-500/20 transition-colors">
+                    <div className="text-yellow-500">{service.icon}</div>
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{service.title}</h3>
                   <p className="text-gray-400 text-sm">{service.description}</p>
@@ -821,18 +776,59 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
+
+          {/* Testimonials */}
+          <div className="mt-12 sm:mt-16">
+            <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">
+              What Our <span className="text-yellow-500">Customers</span> Say
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              {[
+                {
+                  name: "Sarah M.",
+                  text: "Excellent service! Driver was on time and very professional. Will definitely use again.",
+                  rating: 5,
+                },
+                {
+                  name: "John D.",
+                  text: "Best airport transfer service in Norwich. Fixed prices and clean vehicles.",
+                  rating: 5,
+                },
+                {
+                  name: "Emily R.",
+                  text: "Used Alitaxis for my trip to Heathrow. Smooth journey and great value for money.",
+                  rating: 5,
+                },
+              ].map((testimonial, index) => (
+                <Card key={index} className="bg-gray-800 border-gray-700">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex gap-1 mb-3 sm:mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                      ))}
+                    </div>
+                    <p className="text-gray-300 mb-3 sm:mb-4 text-sm sm:text-base">
+                      "{testimonial.text}"
+                    </p>
+                    <p className="text-yellow-500 font-semibold text-sm sm:text-base">
+                      - {testimonial.name}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 bg-[#1A1A1A]">
+      <section id="contact" className="py-16 sm:py-20 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
             {/* Contact Info */}
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">
-                <span className="text-white">Contact</span>{" "}
-                <span className="text-[#FFC107]">Us</span>
+                <span className="text-yellow-500">Contact</span> Us
               </h2>
               <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
                 Have questions or need a quote? Get in touch with us. We're available 24/7.
@@ -840,32 +836,32 @@ export default function HomePage() {
 
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Phone</p>
-                    <a href="tel:077XXXXXXXX" className="text-white hover:text-[#FFC107] font-semibold text-sm sm:text-base">
-                      077 XXX XXXXXXX
+                    <a href="tel:077XXXXXXXX" className="text-white hover:text-yellow-500 font-semibold text-sm sm:text-base">
+                      077 XXX XXXXXX
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Email</p>
-                    <a href="mailto:Alixxxxxxxxxxxx@gmail.com" className="text-white hover:text-[#FFC107] font-semibold text-sm sm:text-base">
+                    <a href="mailto:Alixxxxxxxxxxxx@gmail.com" className="text-white hover:text-yellow-500 font-semibold text-sm sm:text-base">
                       Alixxxxxxxxxxxx@gmail.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Location</p>
@@ -874,8 +870,8 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFC107]/10 rounded-full flex items-center justify-center">
-                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFC107]" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
+                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
                   </div>
                   <div>
                     <p className="text-gray-500 text-xs sm:text-sm">Hours</p>
@@ -887,7 +883,7 @@ export default function HomePage() {
 
             {/* Contact Form */}
             <div>
-              <Card className="bg-[#252525] border-white/10">
+              <Card className="bg-gray-900 border-gray-800">
                 <CardContent className="p-4 sm:p-6 lg:p-8">
                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
                     Send us a Message
@@ -895,25 +891,25 @@ export default function HomePage() {
                   <form className="space-y-4">
                     <div>
                       <Label className="text-gray-300">Name</Label>
-                      <Input placeholder="Your name" className="bg-[#333] border-white/10 text-white mt-1 h-11" />
+                      <Input placeholder="Your name" className="bg-gray-800 border-gray-700 text-white mt-1" />
                     </div>
                     <div>
                       <Label className="text-gray-300">Email</Label>
-                      <Input type="email" placeholder="Your email" className="bg-[#333] border-white/10 text-white mt-1 h-11" />
+                      <Input type="email" placeholder="Your email" className="bg-gray-800 border-gray-700 text-white mt-1" />
                     </div>
                     <div>
                       <Label className="text-gray-300">Phone</Label>
-                      <Input placeholder="Your phone number" className="bg-[#333] border-white/10 text-white mt-1 h-11" />
+                      <Input placeholder="Your phone number" className="bg-gray-800 border-gray-700 text-white mt-1" />
                     </div>
                     <div>
                       <Label className="text-gray-300">Message</Label>
                       <Textarea
                         placeholder="How can we help you?"
-                        className="bg-[#333] border-white/10 text-white mt-1"
+                        className="bg-gray-800 border-gray-700 text-white mt-1"
                         rows={4}
                       />
                     </div>
-                    <Button className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full">
+                    <Button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6">
                       Send Message
                     </Button>
                   </form>
@@ -925,22 +921,23 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#252525] border-t border-white/10 mt-auto">
+      <footer className="bg-gray-900 border-t border-gray-800 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {/* Company Info */}
             <div>
               <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#FFC107] rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center">
                   <Car className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#FFC107]">HALITAXIS</h3>
-                  <p className="text-xs text-white">NORWICH</p>
+                  <h3 className="text-base sm:text-lg font-bold text-yellow-500">ALITAXIS</h3>
+                  <p className="text-xs text-gray-400">NORWICH LTD</p>
                 </div>
               </div>
               <p className="text-gray-400 text-xs sm:text-sm">
-                Your trusted partner for airport transfers and local taxi services from Norwich.
+                Your trusted partner for long-distance taxi services and airport transfers
+                from Norwich.
               </p>
             </div>
 
@@ -952,7 +949,7 @@ export default function HomePage() {
                   <li key={link}>
                     <button
                       onClick={() => scrollToSection(link.toLowerCase().replace(" ", ""))}
-                      className="text-gray-400 hover:text-[#FFC107] transition-colors text-xs sm:text-sm"
+                      className="text-gray-400 hover:text-yellow-500 transition-colors text-xs sm:text-sm"
                     >
                       {link}
                     </button>
@@ -969,7 +966,7 @@ export default function HomePage() {
                   <li key={airport.code}>
                     <button
                       onClick={() => openAirportBooking(airport.name)}
-                      className="text-gray-400 hover:text-[#FFC107] transition-colors text-xs sm:text-sm"
+                      className="text-gray-400 hover:text-yellow-500 transition-colors text-xs sm:text-sm"
                     >
                       {airport.name}
                     </button>
@@ -983,15 +980,15 @@ export default function HomePage() {
               <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
               <ul className="space-y-1.5 sm:space-y-2 text-gray-400 text-xs sm:text-sm">
                 <li className="flex items-center gap-2">
-                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
-                  <span>077 XXX XXXXXXX</span>
+                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
+                  <span>077 XXX XXXXXX</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                  <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                   <span className="break-all">Alixxxxxxxxxxxx@gmail.com</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFC107]" />
+                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                   <span>Norwich, UK</span>
                 </li>
               </ul>
@@ -999,9 +996,9 @@ export default function HomePage() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-white/10 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+          <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
             <p className="text-gray-500 text-xs sm:text-sm">
-              © {new Date().getFullYear()} Halitaxis Norwich. All rights reserved.
+              © {new Date().getFullYear()} Alitaxis Norwich Ltd. All rights reserved.
             </p>
           </div>
         </div>
@@ -1009,9 +1006,9 @@ export default function HomePage() {
 
       {/* Booking Dialog */}
       <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
-        <DialogContent className="bg-[#252525] border-white/10 max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-gray-900 border-gray-700 max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-[#FFC107]">
+            <DialogTitle className="text-2xl font-bold text-yellow-500">
               Complete Your Booking
             </DialogTitle>
             <DialogDescription className="text-gray-400">
@@ -1033,7 +1030,7 @@ export default function HomePage() {
             <form onSubmit={handleBookingSubmit} className="space-y-4">
               {/* Journey Details */}
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
+                <h4 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
                   Journey Details
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1042,7 +1039,7 @@ export default function HomePage() {
                     <Input
                       required
                       placeholder="e.g., Norwich City Centre"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.pickupLocation}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
@@ -1054,7 +1051,7 @@ export default function HomePage() {
                     <Input
                       required
                       placeholder="e.g., Stansted Airport"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.dropoffLocation}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
@@ -1068,7 +1065,7 @@ export default function HomePage() {
                     <Input
                       required
                       type="date"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.pickupDate}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, pickupDate: e.target.value })
@@ -1080,7 +1077,7 @@ export default function HomePage() {
                     <Input
                       required
                       type="time"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.pickupTime}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, pickupTime: e.target.value })
@@ -1097,10 +1094,10 @@ export default function HomePage() {
                         setBookingForm({ ...bookingForm, passengers: value })
                       }
                     >
-                      <SelectTrigger className="bg-[#333] border-white/10 text-white mt-1 h-11">
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#333] border-white/10">
+                      <SelectContent className="bg-gray-800 border-gray-700">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                           <SelectItem key={n} value={n.toString()}>
                             {n} {n === 1 ? "Passenger" : "Passengers"}
@@ -1117,10 +1114,10 @@ export default function HomePage() {
                         setBookingForm({ ...bookingForm, luggage: value })
                       }
                     >
-                      <SelectTrigger className="bg-[#333] border-white/10 text-white mt-1 h-11">
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#333] border-white/10">
+                      <SelectContent className="bg-gray-800 border-gray-700">
                         {[0, 1, 2, 3, 4, 5, 6].map((n) => (
                           <SelectItem key={n} value={n.toString()}>
                             {n} {n === 1 ? "Bag" : "Bags"}
@@ -1137,10 +1134,10 @@ export default function HomePage() {
                         setBookingForm({ ...bookingForm, vehicleType: value })
                       }
                     >
-                      <SelectTrigger className="bg-[#333] border-white/10 text-white mt-1 h-11">
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#333] border-white/10">
+                      <SelectContent className="bg-gray-800 border-gray-700">
                         {vehicleTypes.map((v) => (
                           <SelectItem key={v.id} value={v.id}>
                             {v.name}
@@ -1154,7 +1151,7 @@ export default function HomePage() {
 
               {/* Customer Details */}
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
+                <h4 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
                   Your Details
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1163,7 +1160,7 @@ export default function HomePage() {
                     <Input
                       required
                       placeholder="Your name"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.customerName}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, customerName: e.target.value })
@@ -1176,7 +1173,7 @@ export default function HomePage() {
                       required
                       type="tel"
                       placeholder="Your phone number"
-                      className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                       value={bookingForm.customerPhone}
                       onChange={(e) =>
                         setBookingForm({ ...bookingForm, customerPhone: e.target.value })
@@ -1190,7 +1187,7 @@ export default function HomePage() {
                     required
                     type="email"
                     placeholder="Your email"
-                    className="bg-[#333] border-white/10 text-white mt-1 h-11"
+                    className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
                     value={bookingForm.customerEmail}
                     onChange={(e) =>
                       setBookingForm({ ...bookingForm, customerEmail: e.target.value })
@@ -1201,7 +1198,7 @@ export default function HomePage() {
                   <Label className="text-gray-300">Special Requests (Optional)</Label>
                   <Textarea
                     placeholder="Any special requirements?"
-                    className="bg-[#333] border-white/10 text-white mt-1"
+                    className="bg-gray-800 border-gray-700 text-white mt-1"
                     value={bookingForm.specialRequests}
                     onChange={(e) =>
                       setBookingForm({ ...bookingForm, specialRequests: e.target.value })
@@ -1211,10 +1208,10 @@ export default function HomePage() {
               </div>
 
               {/* Price Estimate */}
-              <div className="bg-[#FFC107]/10 border border-[#FFC107]/30 rounded-lg p-4">
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-300">Estimated Price</span>
-                  <span className="text-2xl font-bold text-[#FFC107]">
+                  <span className="text-2xl font-bold text-yellow-500">
                     £{(() => {
                       const vehicle = vehicleTypes.find((v) => v.id === bookingForm.vehicleType);
                       const airport = airportRoutes.find((a) =>
@@ -1235,7 +1232,7 @@ export default function HomePage() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#FFC107] hover:bg-[#FFD54F] text-black font-bold h-12 rounded-full"
+                className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-6"
               >
                 {isSubmitting ? "Processing..." : "Confirm Booking"}
               </Button>

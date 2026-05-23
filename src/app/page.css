@@ -446,6 +446,8 @@
   position: relative;
   z-index: 10;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 0 1rem;
   box-sizing: border-box;
   display: flex;
@@ -463,14 +465,21 @@
   align-items: center;
   padding-left: 0;
   width: 100%;
+  flex: 1;
 }
 
 @media (min-width: 1024px) {
   .heroGrid {
-    grid-template-columns: 1fr 2fr 472px;
+    grid-template-columns: 1.2fr 1.4fr 420px;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
     min-height: calc(100vh - 72px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .heroGrid {
+    grid-template-columns: 1.2fr 1.4fr 460px;
   }
 }
 

@@ -96,7 +96,7 @@
   gap: 48px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .desktopNav {
     display: flex;
   }
@@ -199,7 +199,7 @@
   gap: 16px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .headerRight {
     display: flex;
   }
@@ -348,7 +348,7 @@
   padding: 8px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mobileMenuBtn {
     display: none;
   }
@@ -465,12 +465,18 @@
   width: 100%;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroGrid {
-    grid-template-columns: 1fr 2fr 472px;
+    grid-template-columns: 1fr 2fr 420px;
     align-items: center;
     gap: 16px;
     min-height: calc(100vh - 72px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroGrid {
+    grid-template-columns: 1fr 2fr 472px;
   }
 }
 
@@ -479,7 +485,7 @@
   text-align: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroLeft {
     text-align: left;
   }
@@ -508,7 +514,7 @@
   .heroTitle { font-size: 4.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroTitle { font-size: 5.5rem; }
 }
 
@@ -527,7 +533,7 @@
   .heroTitleWhite { font-size: 2.8rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroTitleWhite { font-size: 3.8rem; }
 }
 
@@ -545,7 +551,7 @@
   .heroDesc { font-size: 1.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroDesc {
     margin-left: 0;
   }
@@ -559,7 +565,7 @@
   margin-bottom: 24px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroBadges {
     justify-content: flex-start;
   }
@@ -593,7 +599,7 @@
   justify-content: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroCtas {
     justify-content: flex-start;
   }
@@ -682,7 +688,7 @@
   .heroMiddleTitle { font-size: 2.8rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroMiddleTitle { font-size: 3.5rem; }
 }
 
@@ -731,7 +737,7 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroRight {
     display: flex;
     justify-content: flex-end;
@@ -898,7 +904,7 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionDark { padding: 100px 0; }
 }
 
@@ -908,7 +914,7 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionBlack { padding: 100px 0; }
 }
 
@@ -927,7 +933,7 @@
   margin-bottom: 36px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionHeader { margin-bottom: 64px; }
 }
 
@@ -957,7 +963,7 @@
   .sectionTitle { font-size: 2.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionTitle { font-size: 2.6rem; }
 }
 
@@ -987,7 +993,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .vehicleGrid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1118,7 +1124,7 @@
   margin-bottom: 40px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mobileForm {
     display: none;
   }
@@ -1176,7 +1182,7 @@
   gap: 24px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .infoGrid {
     display: grid;
   }
@@ -1245,7 +1251,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .airportCards {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1437,7 +1443,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .servicesGrid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1591,7 +1597,7 @@
   gap: 56px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .contactGrid {
     grid-template-columns: 1fr 1fr;
     align-items: start;
@@ -1762,7 +1768,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .footerGrid {
     grid-template-columns: 2fr 1fr 1fr 1fr;
   }

@@ -564,7 +564,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroTitle { font-size: 4.5rem; }
+  .heroTitle { font-size: 3.2rem; }
 }
 
 @media (min-width: 1280px) {
@@ -583,11 +583,11 @@
 }
 
 @media (min-width: 640px) {
-  .heroTitleWhite { font-size: 2.8rem; }
+  .heroTitleWhite { font-size: 2rem; }
 }
 
 @media (min-width: 768px) {
-  .heroTitleWhite { font-size: 3rem; }
+  .heroTitleWhite { font-size: 2rem; }
 }
 
 @media (min-width: 1280px) {
@@ -605,7 +605,11 @@
 }
 
 @media (min-width: 640px) {
-  .heroDesc { font-size: 1.2rem; }
+  .heroDesc { font-size: 0.9rem; }
+}
+
+@media (min-width: 768px) {
+  .heroDesc { font-size: 0.85rem; }
 }
 
 @media (min-width: 768px) {
@@ -633,10 +637,14 @@
   align-items: center;
   gap: 6px;
   background: rgba(234, 179, 8, 0.1);
-  padding: 8px 14px;
+  padding: 6px 10px;
   border-radius: 999px;
   color: #eab308;
-  font-size: 0.85rem;
+  font-size: 0.72rem;
+}
+
+@media (min-width: 1280px) {
+  .heroBadgePill { font-size: 0.85rem; padding: 8px 14px; }
 }
 
 @media (min-width: 640px) {
@@ -668,14 +676,18 @@
   font-weight: 700;
   border: none;
   border-radius: 8px;
-  padding: 16px 32px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: background 0.2s;
   text-decoration: none;
+}
+
+@media (min-width: 1280px) {
+  .btnYellowLg { padding: 16px 32px; font-size: 1.1rem; gap: 10px; }
 }
 
 .btnYellowLg:hover {
@@ -688,14 +700,18 @@
   font-weight: 700;
   border: 2px solid #eab308;
   border-radius: 8px;
-  padding: 16px 32px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: background 0.2s;
   text-decoration: none;
+}
+
+@media (min-width: 1280px) {
+  .btnOutlineLg { padding: 16px 32px; font-size: 1.1rem; gap: 10px; }
 }
 
 .btnOutlineLg:hover {
@@ -742,11 +758,11 @@
 }
 
 @media (min-width: 640px) {
-  .heroMiddleTitle { font-size: 2.8rem; }
+  .heroMiddleTitle { font-size: 2rem; }
 }
 
 @media (min-width: 768px) {
-  .heroMiddleTitle { font-size: 2.8rem; }
+  .heroMiddleTitle { font-size: 2rem; }
 }
 
 @media (min-width: 1280px) {

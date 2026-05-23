@@ -448,7 +448,7 @@
 
 @media (min-width: 768px) {
   .hero {
-    height: 520px;
+    height: 680px;
     min-height: unset;
     padding-top: 64px;
   }
@@ -498,7 +498,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroContent { padding: 24px 2rem 24px; align-items: center; }
+  .heroContent { padding: 40px 2rem 32px; align-items: center; }
 }
 
 @media (min-width: 1280px) {
@@ -516,9 +516,9 @@
 
 @media (min-width: 768px) {
   .heroGrid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 320px);
-    align-items: start;
-    gap: 16px;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.4fr) minmax(0, 300px);
+    align-items: center;
+    gap: 20px;
   }
 }
 
@@ -564,7 +564,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroTitle { font-size: 3.8rem; }
+  .heroTitle { font-size: 4.5rem; }
 }
 
 @media (min-width: 1280px) {
@@ -587,7 +587,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroTitleWhite { font-size: 2.6rem; }
+  .heroTitleWhite { font-size: 3rem; }
 }
 
 @media (min-width: 1280px) {
@@ -746,7 +746,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroMiddleTitle { font-size: 2.2rem; }
+  .heroMiddleTitle { font-size: 2.8rem; }
 }
 
 @media (min-width: 1280px) {

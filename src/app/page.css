@@ -93,12 +93,22 @@
 .desktopNav {
   display: none;
   align-items: center;
-  gap: 48px;
+  gap: 16px;
 }
 
 @media (min-width: 768px) {
   .desktopNav {
     display: flex;
+    gap: 16px;
+  }
+  .headerRow {
+    height: 64px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .desktopNav {
+    gap: 40px;
   }
   .headerRow {
     height: 72px;
@@ -108,12 +118,17 @@
 .navBtn {
   background: none;
   border: none;
-  font-size: 1.05rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: #d1d5db;
   cursor: pointer;
   transition: color 0.2s;
   padding: 0;
+  white-space: nowrap;
+}
+
+@media (min-width: 1280px) {
+  .navBtn { font-size: 1.05rem; }
 }
 
 .navBtn:hover,
@@ -134,7 +149,7 @@
 .dropdownBtn {
   background: none;
   border: none;
-  font-size: 1.05rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: #d1d5db;
   cursor: pointer;
@@ -142,6 +157,7 @@
   align-items: center;
   gap: 4px;
   padding: 0;
+  white-space: nowrap;
   transition: color 0.2s;
 }
 
@@ -208,16 +224,17 @@
 .headerPhone {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   color: #eab308;
   font-weight: 600;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 .headerPhone svg {
-  width: 16px;
-  height: 16px;
+  width: 13px;
+  height: 13px;
 }
 
 .btnYellow {
@@ -226,10 +243,17 @@
   font-weight: 700;
   border: none;
   border-radius: 6px;
-  padding: 8px 20px;
+  padding: 6px 12px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   transition: background 0.2s;
+  white-space: nowrap;
+}
+
+@media (min-width: 1280px) {
+  .headerPhone { font-size: 0.9rem; gap: 8px; }
+  .headerPhone svg { width: 16px; height: 16px; }
+  .btnYellow { padding: 8px 20px; font-size: 0.9rem; }
 }
 
 .btnYellow:hover {
@@ -424,8 +448,8 @@
 
 @media (min-width: 768px) {
   .hero {
-    height: 100vh;
-    min-height: unset;
+    height: auto;
+    min-height: 100vh;
     padding-top: 72px;
   }
 }
@@ -455,18 +479,18 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  padding: 24px 1rem 40px;
+  padding: 32px 1rem 48px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
 }
 
 @media (min-width: 640px) {
-  .heroContent { padding: 24px 2rem 40px; }
+  .heroContent { padding: 32px 2rem 48px; }
 }
 
 @media (min-width: 768px) {
-  .heroContent { padding: 0 2rem; }
+  .heroContent { padding: 40px 2rem 48px; }
 }
 
 .heroGrid {
@@ -480,10 +504,16 @@
 
 @media (min-width: 768px) {
   .heroGrid {
-    grid-template-columns: 1fr 2fr 472px;
-    align-items: center;
-    gap: 16px;
-    min-height: calc(100vh - 72px);
+    grid-template-columns: 1fr 1.6fr 360px;
+    align-items: start;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .heroGrid {
+    grid-template-columns: 1fr 2fr 440px;
+    gap: 24px;
   }
 }
 
@@ -757,9 +787,13 @@
   background: rgba(8, 12, 24, 0.92);
   border: 1px solid rgba(234, 179, 8, 0.15);
   border-radius: 16px;
-  padding: 28px 24px;
+  padding: 18px 16px;
   backdrop-filter: blur(12px);
   width: 100%;
+}
+
+@media (min-width: 1280px) {
+  .quoteCard { padding: 28px 24px; }
 }
 
 .quoteTitle {

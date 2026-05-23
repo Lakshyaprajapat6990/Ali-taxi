@@ -448,7 +448,7 @@
 
 @media (min-width: 768px) {
   .hero {
-    height: 680px;
+    height: 780px;
     min-height: unset;
     padding-top: 64px;
   }
@@ -498,7 +498,7 @@
 }
 
 @media (min-width: 768px) {
-  .heroContent { padding: 40px 2rem 32px; align-items: center; }
+  .heroContent { padding: 50px 2rem 40px; align-items: center; }
 }
 
 @media (min-width: 1280px) {

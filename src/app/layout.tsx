@@ -14,24 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "AliTaxis Norwich - Airport Transfers & Long Distance Taxi",
+  description: "Reliable taxi service in Norwich. Airport transfers to Heathrow, Gatwick, Stansted & Luton. Fixed prices, 24/7 available, licensed & insured.",
+  keywords: ["AliTaxis", "Norwich taxi", "airport transfer", "Heathrow taxi", "Gatwick taxi", "Stansted taxi", "Luton taxi", "long distance taxi"],
+  authors: [{ name: "AliTaxis Norwich" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/logo.svg",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "AliTaxis Norwich - Airport Transfers & Long Distance Taxi",
+    description: "Reliable taxi service in Norwich. Fixed prices, 24/7 available.",
+    siteName: "AliTaxis Norwich",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "AliTaxis Norwich - Airport Transfers & Long Distance Taxi",
+    description: "Reliable taxi service in Norwich. Fixed prices, 24/7 available.",
   },
 };
 

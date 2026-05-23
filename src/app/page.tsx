@@ -1,26 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Phone,
   Mail,
@@ -28,7 +8,6 @@ import {
   Clock,
   Users,
   Luggage,
-  Car,
   Plane,
   Shield,
   CreditCard,
@@ -40,917 +19,629 @@ import {
   Calendar,
   Timer,
 } from "lucide-react";
+import "./page.css";
 
-// Vehicle types with pricing
 const vehicleTypes = [
-  {
-    id: "economy",
-    name: "Economy",
-    description: "Comfortable sedan for budget-conscious travelers",
-    capacity: 4,
-    luggage: 2,
-    pricePerMile: 1.8,
-    icon: "🚗",
-  },
-  {
-    id: "standard",
-    name: "Standard",
-    description: "Spacious sedan with extra legroom",
-    capacity: 4,
-    luggage: 3,
-    pricePerMile: 2.2,
-    icon: "🚕",
-  },
-  {
-    id: "executive",
-    name: "Executive",
-    description: "Premium sedan for business travelers",
-    capacity: 4,
-    luggage: 3,
-    pricePerMile: 3.0,
-    icon: "🚙",
-  },
-  {
-    id: "mpv",
-    name: "MPV",
-    description: "Perfect for families and groups",
-    capacity: 6,
-    luggage: 5,
-    pricePerMile: 3.5,
-    icon: "🚐",
-  },
+  { id: "economy",   name: "Economy",   description: "Comfortable saloon for budget-conscious travellers", capacity: 4, luggage: 2, pricePerMile: 1.8, image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&q=80", badge: "Best Value" },
+  { id: "standard",  name: "Standard",  description: "Spacious saloon with extra legroom & comfort",       capacity: 4, luggage: 3, pricePerMile: 2.2, image: "https://images.unsplash.com/photo-1605559424843-9073c6e102c6?w=400&q=80", badge: "Popular" },
+  { id: "executive", name: "Executive", description: "Premium vehicle for business travellers",            capacity: 4, luggage: 3, pricePerMile: 3.0, image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80", badge: "Business" },
+  { id: "mpv",       name: "MPV",       description: "Ideal for families, groups & extra luggage",        capacity: 6, luggage: 5, pricePerMile: 3.5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80", badge: "Groups" },
 ];
 
-// Airport routes
 const airportRoutes = [
-  {
-    name: "Stansted Airport",
-    code: "STN",
-    distance: 65,
-    basePrice: 80,
-    estimatedTime: "1h 15m",
-    image: "/airports/stansted.jpg",
-  },
-  {
-    name: "Gatwick Airport",
-    code: "LGW",
-    distance: 130,
-    basePrice: 160,
-    estimatedTime: "2h 30m",
-    image: "/airports/gatwick.jpg",
-  },
-  {
-    name: "Heathrow Airport",
-    code: "LHR",
-    distance: 120,
-    basePrice: 150,
-    estimatedTime: "2h 15m",
-    image: "/airports/heathrow.jpg",
-  },
-  {
-    name: "Luton Airport",
-    code: "LTN",
-    distance: 95,
-    basePrice: 110,
-    estimatedTime: "1h 45m",
-    image: "/airports/luton.jpg",
-  },
-  {
-    name: "Manchester Airport",
-    code: "MAN",
-    distance: 180,
-    basePrice: 220,
-    estimatedTime: "3h 30m",
-    image: "/airports/manchester.jpg",
-  },
+  { name: "Heathrow Airport", code: "LHR", distance: 120, basePrice: 150, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg" },
+  { name: "Gatwick Airport",  code: "LGW", distance: 130, basePrice: 160, estimatedTime: "2h 30m", image: "/airports/gatwick.jpg"  },
+  { name: "Stansted Airport", code: "STN", distance: 65,  basePrice: 80,  estimatedTime: "1h 15m", image: "/airports/stansted.jpg" },
+  { name: "Luton Airport",    code: "LTN", distance: 95,  basePrice: 110, estimatedTime: "1h 45m", image: "/airports/luton.jpg"    },
 ];
 
-// Services offered
 const services = [
-  {
-    icon: <Plane className="w-8 h-8" />,
-    title: "Airport Transfers",
-    description: "Reliable transfers to all major UK airports",
-  },
-  {
-    icon: <MapPin className="w-8 h-8" />,
-    title: "Long Distance",
-    description: "Comfortable travel to any UK destination",
-  },
-  {
-    icon: <Clock className="w-8 h-8" />,
-    title: "24/7 Service",
-    description: "Available round the clock, every day",
-  },
-  {
-    icon: <Shield className="w-8 h-8" />,
-    title: "Safe & Secure",
-    description: "Licensed drivers, insured vehicles",
-  },
+  { icon: <Plane />,     title: "Airport Transfers",  description: "Reliable, punctual transfers to Heathrow, Gatwick, Stansted & Luton with flight monitoring included." },
+  { icon: <MapPin />,    title: "Long Distance",       description: "Comfortable travel to any destination across the UK. Fixed prices, no surprises."                    },
+  { icon: <Clock />,     title: "24/7 Available",      description: "Day or night, weekends or bank holidays — we're always here when you need us."                       },
+  { icon: <Shield />,    title: "Safe & Licensed",     description: "All drivers are DBS checked, fully licensed and insured for your complete peace of mind."             },
+  { icon: <CreditCard />,title: "Fixed Prices",        description: "The price quoted is the price you pay. No hidden charges, no surge pricing."                         },
+  { icon: <Star />,      title: "5-Star Rated",        description: "Consistently rated 5 stars by hundreds of satisfied customers across Norwich."                       },
 ];
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen]       = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting]   = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [selectedAirport, setSelectedAirport] = useState<string | null>(null);
 
-  // Booking form state
+  // Auth state
+  const [user, setUser] = useState<{ id: string; name: string; email: string; role: string } | null>(null);
+
+  // Location state
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; address: string } | null>(null);
+  const [locationStatus, setLocationStatus] = useState<"idle" | "fetching" | "got" | "denied">("idle");
+
   const [bookingForm, setBookingForm] = useState({
-    pickupLocation: "",
-    dropoffLocation: "",
-    pickupDate: "",
-    pickupTime: "",
-    passengers: "1",
-    luggage: "0",
-    vehicleType: "standard",
-    customerName: "",
-    customerEmail: "",
-    customerPhone: "",
-    specialRequests: "",
+    pickupLocation: "", dropoffLocation: "", pickupDate: "", pickupTime: "",
+    passengers: "1", luggage: "0", vehicleType: "standard",
+    customerName: "", customerEmail: "", customerPhone: "", specialRequests: "",
   });
 
-  // Handle scroll for active section
+  // Fetch current session on mount
+  useEffect(() => {
+    fetch("/api/auth/me").then(r => r.json()).then(d => {
+      if (d.user) {
+        setUser(d.user);
+        setBookingForm(f => ({
+          ...f,
+          customerName: d.user.name || "",
+          customerEmail: d.user.email || "",
+          customerPhone: d.user.phone || "",
+        }));
+      }
+    }).catch(() => {});
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["home", "book", "airports", "services", "contact"];
       const scrollPosition = window.scrollY + 100;
-
       for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
+        const el = document.getElementById(section);
+        if (el && scrollPosition >= el.offsetTop && scrollPosition < el.offsetTop + el.offsetHeight) {
+          setActiveSection(section);
+          break;
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll to section
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setIsMenuOpen(false);
   };
 
-  // Handle booking submission
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
+    window.location.reload();
+  };
+
+  // Capture live geolocation when booking dialog opens
+  const captureLocation = () => {
+    if (!navigator.geolocation) return;
+    setLocationStatus("fetching");
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        // Reverse geocode using nominatim (free, no API key)
+        let address = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        try {
+          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+          const d = await r.json();
+          if (d.display_name) address = d.display_name;
+        } catch {}
+        setUserLocation({ lat, lng, address });
+        setLocationStatus("got");
+        // Auto-fill pickup location if empty
+        setBookingForm(f => ({ ...f, pickupLocation: f.pickupLocation || address }));
+      },
+      () => setLocationStatus("denied"),
+      { timeout: 8000 }
+    );
+  };
+
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      const response = await fetch("/api/bookings", {
+      const res = await fetch("/api/bookings", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookingForm),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...bookingForm,
+          locationLat:     userLocation?.lat     ?? null,
+          locationLng:     userLocation?.lng     ?? null,
+          locationAddress: userLocation?.address ?? null,
+        }),
       });
-
-      if (response.ok) {
+      if (res.ok) {
         setBookingSuccess(true);
-        setBookingForm({
-          pickupLocation: "",
-          dropoffLocation: "",
-          pickupDate: "",
-          pickupTime: "",
-          passengers: "1",
-          luggage: "0",
-          vehicleType: "standard",
-          customerName: "",
-          customerEmail: "",
-          customerPhone: "",
-          specialRequests: "",
-        });
-        setTimeout(() => {
-          setBookingSuccess(false);
-          setIsBookingOpen(false);
-        }, 3000);
+        setBookingForm({ pickupLocation: "", dropoffLocation: "", pickupDate: "", pickupTime: "",
+          passengers: "1", luggage: "0", vehicleType: "standard",
+          customerName: user?.name || "", customerEmail: user?.email || "", customerPhone: "", specialRequests: "" });
+        setUserLocation(null);
+        setLocationStatus("idle");
+        setTimeout(() => { setBookingSuccess(false); setIsBookingOpen(false); }, 3000);
       }
-    } catch (error) {
-      console.error("Booking error:", error);
+    } catch (err) {
+      console.error("Booking error:", err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Open booking with airport pre-selected
   const openAirportBooking = (airportName: string) => {
-    setSelectedAirport(airportName);
-    setBookingForm((prev) => ({
-      ...prev,
-      dropoffLocation: airportName,
-    }));
+    setBookingForm(prev => ({ ...prev, dropoffLocation: airportName }));
     setIsBookingOpen(true);
   };
 
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "book", label: "Book Taxi" },
+    { id: "services", label: "Services" },
+    { id: "contact", label: "Contact" },
+  ];
+
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-yellow-500/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+    <div className="page">
+
+      {/* ===== HEADER ===== */}
+      <header className="header">
+        <div className="headerInner">
+          <div className="headerRow">
+
             {/* Logo */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                <Car className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-              </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold text-yellow-500 tracking-wide">
-                  ALITAXIS
-                </h1>
-                <p className="text-[10px] sm:text-xs text-gray-400 -mt-1">NORWICH LTD</p>
+            <div className="logo">
+              <div className="logoIcon"><Plane /></div>
+              <div className="logoText">
+                <h1 className="logoTitle">ALITAXIS</h1>
+                <p className="logoSub">NORWICH</p>
               </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {[
-                { id: "home", label: "Home" },
-                { id: "book", label: "Book Taxi" },
-                { id: "airports", label: "Airport Transfers" },
-                { id: "services", label: "Services" },
-                { id: "contact", label: "Contact" },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-yellow-500 ${
-                    activeSection === item.id ? "text-yellow-500" : "text-gray-300"
-                  }`}
-                >
+            {/* Desktop Nav */}
+            <nav className="desktopNav">
+              {[{ id: "home", label: "Home" }, { id: "book", label: "Book Taxi" }].map(item => (
+                <button key={item.id} onClick={() => scrollToSection(item.id)}
+                  className={activeSection === item.id ? "navBtnActive navBtn" : "navBtn"}>
+                  {item.label}
+                </button>
+              ))}
+
+              {/* Airport Transfers dropdown */}
+              <div className="dropdownWrap">
+                <button onClick={() => scrollToSection("airports")}
+                  className={activeSection === "airports" ? "dropdownBtnActive dropdownBtn" : "dropdownBtn"}>
+                  🛫 Airport Transfers
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="dropdownMenu">
+                  {["Heathrow Airport", "Gatwick Airport", "Stansted Airport", "Luton Airport"].map(a => (
+                    <button key={a} className="dropdownItem" onClick={() => openAirportBooking(a)}>{a}</button>
+                  ))}
+                </div>
+              </div>
+
+              {[{ id: "services", label: "Services" }, { id: "contact", label: "Contact" }].map(item => (
+                <button key={item.id} onClick={() => scrollToSection(item.id)}
+                  className={activeSection === item.id ? "navBtnActive navBtn" : "navBtn"}>
                   {item.label}
                 </button>
               ))}
             </nav>
 
-            {/* Phone Number & CTA */}
-            <div className="hidden lg:flex items-center gap-4">
-              <a
-                href="tel:077XXXXXXXX"
-                className="flex items-center gap-2 text-yellow-500 font-semibold"
-              >
-                <Phone className="w-4 h-4" />
-                <span>077 XXX XXXXXX</span>
+            {/* Right side */}
+            <div className="headerRight">
+              <a href="tel:077XXXXXXXX" className="headerPhone">
+                <Phone /> <span>077 XXX XXXXXX</span>
               </a>
-              <Button
-                onClick={() => setIsBookingOpen(true)}
-                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-6"
-              >
-                Book Now
-              </Button>
+              {user ? (
+                <div className="headerUserWrap">
+                  <a href="/dashboard" className="headerUserBtn">
+                    <div className="headerUserAvatar">{user.name.charAt(0).toUpperCase()}</div>
+                    <span>{user.name.split(" ")[0]}</span>
+                  </a>
+                  <button className="headerLogoutBtn" onClick={handleLogout}>Sign Out</button>
+                </div>
+              ) : (
+                <a href="/login" className="headerLoginBtn">Sign In</a>
+              )}
+              <button className="btnYellow" onClick={() => { setIsBookingOpen(true); captureLocation(); }}>Book Now</button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden text-yellow-500 p-2"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {/* Mobile menu toggle */}
+            <button className="mobileMenuBtn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Nav */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-black/95 border-t border-yellow-500/20">
-            <nav className="flex flex-col p-4 gap-2">
-              {[
-                { id: "home", label: "Home" },
-                { id: "book", label: "Book Taxi" },
-                { id: "airports", label: "Airport Transfers" },
-                { id: "services", label: "Services" },
-                { id: "contact", label: "Contact" },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-left py-3 px-4 rounded-lg font-medium transition-colors ${
-                    activeSection === item.id
-                      ? "bg-yellow-500/10 text-yellow-500"
-                      : "text-gray-300 hover:bg-gray-800"
-                  }`}
-                >
+          <div className="mobileNav">
+            <nav className="mobileNavInner">
+              {[...navItems.slice(0, 2), { id: "airports", label: "Airport Transfers" }, ...navItems.slice(2)].map(item => (
+                <button key={item.id} onClick={() => scrollToSection(item.id)}
+                  className={activeSection === item.id ? "mobileNavBtn mobileNavBtnActive" : "mobileNavBtn"}>
                   {item.label}
                 </button>
               ))}
-              <div className="mt-4 pt-4 border-t border-gray-800">
-                <a
-                  href="tel:077XXXXXXXX"
-                  className="flex items-center gap-2 text-yellow-500 font-semibold py-2 px-4"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>077 XXX XXXXXX</span>
-                </a>
-                <Button
-                  onClick={() => {
-                    setIsBookingOpen(true);
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold mt-2"
-                >
+              <div className="mobileNavFooter">
+                <a href="tel:077XXXXXXXX" className="mobileNavPhone"><Phone /><span>077 XXX XXXXXX</span></a>
+                <button className="btnYellow mobileBookBtn" onClick={() => { setIsBookingOpen(true); setIsMenuOpen(false); }}>
                   Book Now
-                </Button>
+                </button>
               </div>
             </nav>
           </div>
         )}
       </header>
 
-      {/* Hero Section */}
-      <section id="home" className="relative pt-16 sm:pt-20 min-h-screen flex items-center">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
-          <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-20"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
+      {/* ===== HERO ===== */}
+      <section id="home" className="hero">
+        <div className="heroBg">
+          <div className="heroBgImg" />
+          <div className="heroBgOverlay" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column */}
-            <div className="text-center lg:text-left">
-              <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 mb-4 sm:mb-6">
-                Norwich's Trusted Taxi Service
-              </Badge>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-                <span className="text-yellow-500">ALITAXIS</span>
-                <br />
-                <span className="text-white text-2xl sm:text-3xl md:text-4xl">NORWICH LTD</span>
+        <div className="heroContent">
+          <div className="heroGrid">
+
+            {/* Left */}
+            <div className="heroLeft">
+              <span className="heroBadge">Norwich's Trusted Taxi Service</span>
+              <h1 className="heroTitle">
+                <span className="heroTitleYellow">ALITAXIS</span>
+                <span className="heroTitleWhite">NORWICH</span>
               </h1>
-              <p className="text-gray-300 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
+              <p className="heroDesc">
                 Your reliable partner for long-distance taxi services and airport transfers.
                 Travel in comfort from Norwich to anywhere in the UK.
               </p>
-
-              {/* Features */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
-                  <Clock className="w-4 h-4 text-yellow-500" />
-                  <span className="text-xs sm:text-sm text-yellow-500">24/7 Available</span>
-                </div>
-                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
-                  <Shield className="w-4 h-4 text-yellow-500" />
-                  <span className="text-xs sm:text-sm text-yellow-500">Licensed & Insured</span>
-                </div>
-                <div className="flex items-center gap-2 bg-yellow-500/10 px-3 sm:px-4 py-2 rounded-full">
-                  <CreditCard className="w-4 h-4 text-yellow-500" />
-                  <span className="text-xs sm:text-sm text-yellow-500">Fixed Prices</span>
-                </div>
+              <div className="heroBadges">
+                <span className="heroBadgePill"><Clock />24/7 Available</span>
+                <span className="heroBadgePill"><Shield />Licensed & Insured</span>
+                <span className="heroBadgePill"><CreditCard />Fixed Prices</span>
               </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Button
-                  onClick={() => setIsBookingOpen(true)}
-                  size="lg"
-                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
-                >
-                  Book Your Ride
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-                </Button>
-                <a href="tel:077XXXXXXXX">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 font-bold text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
-                  >
-                    <Phone className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
-                    Call Now
-                  </Button>
+              <div className="heroCtas">
+                <button className="btnYellowLg" onClick={() => setIsBookingOpen(true)}>
+                  Book Your Ride <ArrowRight />
+                </button>
+                <a href="tel:077XXXXXXXX" className="btnOutlineLg">
+                  <Phone /> Call Now
                 </a>
               </div>
             </div>
 
-            {/* Right Column - Quick Booking Card */}
-            <div className="hidden lg:block">
-              <Card className="bg-gray-900/80 border-yellow-500/20 backdrop-blur-sm">
-                <CardContent className="p-6 sm:p-8">
-                  <h3 className="text-xl sm:text-2xl font-bold text-yellow-500 mb-6">
-                    Quick Quote
-                  </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="text-gray-300">Pickup Location</Label>
-                      <Input
-                        placeholder="Enter pickup address"
-                        className="bg-gray-800 border-gray-700 text-white mt-1"
-                        value={bookingForm.pickupLocation}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300">Dropoff Location</Label>
-                      <Input
-                        placeholder="Enter destination"
-                        className="bg-gray-800 border-gray-700 text-white mt-1"
-                        value={bookingForm.dropoffLocation}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="text-gray-300">Date</Label>
-                        <Input
-                          type="date"
-                          className="bg-gray-800 border-gray-700 text-white mt-1"
-                          value={bookingForm.pickupDate}
-                          onChange={(e) =>
-                            setBookingForm({ ...bookingForm, pickupDate: e.target.value })
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-gray-300">Time</Label>
-                        <Input
-                          type="time"
-                          className="bg-gray-800 border-gray-700 text-white mt-1"
-                          value={bookingForm.pickupTime}
-                          onChange={(e) =>
-                            setBookingForm({ ...bookingForm, pickupTime: e.target.value })
-                          }
-                        />
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => setIsBookingOpen(true)}
-                      className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6"
-                    >
-                      Get Quote & Book
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-yellow-500/50 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Book Taxi Section */}
-      <section id="book" className="py-16 sm:py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-yellow-500">Book</span> Your Taxi
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              Fill in your journey details and we'll provide you with an instant quote.
-              Long-distance travel made easy.
-            </p>
-          </div>
-
-          {/* Vehicle Selection */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12">
-            {vehicleTypes.map((vehicle) => (
-              <Card
-                key={vehicle.id}
-                className={`bg-gray-800 border-2 cursor-pointer transition-all hover:scale-105 ${
-                  bookingForm.vehicleType === vehicle.id
-                    ? "border-yellow-500 shadow-lg shadow-yellow-500/20"
-                    : "border-gray-700"
-                }`}
-                onClick={() => setBookingForm({ ...bookingForm, vehicleType: vehicle.id })}
-              >
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">{vehicle.icon}</div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">
-                    {vehicle.name}
-                  </h3>
-                  <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {vehicle.description}
-                  </p>
-                  <div className="flex justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                      <span>{vehicle.capacity}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Luggage className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                      <span>{vehicle.luggage}</span>
-                    </div>
-                  </div>
-                  <p className="text-yellow-500 font-bold mt-3 sm:mt-4">
-                    £{vehicle.pricePerMile.toFixed(2)}/mile
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Mobile Booking Form */}
-          <div className="lg:hidden">
-            <Card className="bg-gray-800 border-gray-700">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-gray-300">Pickup Location</Label>
-                    <Input
-                      placeholder="Enter pickup address"
-                      className="bg-gray-700 border-gray-600 text-white mt-1"
-                      value={bookingForm.pickupLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-gray-300">Dropoff Location</Label>
-                    <Input
-                      placeholder="Enter destination"
-                      className="bg-gray-700 border-gray-600 text-white mt-1"
-                      value={bookingForm.dropoffLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-gray-300">Date</Label>
-                      <Input
-                        type="date"
-                        className="bg-gray-700 border-gray-600 text-white mt-1"
-                        value={bookingForm.pickupDate}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupDate: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300">Time</Label>
-                      <Input
-                        type="time"
-                        className="bg-gray-700 border-gray-600 text-white mt-1"
-                        value={bookingForm.pickupTime}
-                        onChange={(e) =>
-                          setBookingForm({ ...bookingForm, pickupTime: e.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <Button
-                    onClick={() => setIsBookingOpen(true)}
-                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6"
-                  >
-                    Complete Booking
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Desktop Info Cards */}
-          <div className="hidden lg:grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-gray-800 border-gray-700">
-              <CardContent className="p-6">
-                <Calendar className="w-10 h-10 text-yellow-500 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Easy Booking</h3>
-                <p className="text-gray-400">
-                  Book online or call us. We'll confirm your ride within minutes.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800 border-gray-700">
-              <CardContent className="p-6">
-                <Shield className="w-10 h-10 text-yellow-500 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Safe & Reliable</h3>
-                <p className="text-gray-400">
-                  All drivers are DBS checked and vehicles are regularly maintained.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800 border-gray-700">
-              <CardContent className="p-6">
-                <CreditCard className="w-10 h-10 text-yellow-500 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Fixed Pricing</h3>
-                <p className="text-gray-400">
-                  No hidden charges. The price you see is the price you pay.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Airport Transfers Section */}
-      <section id="airports" className="py-16 sm:py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 sm:mb-12">
-            <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30 mb-4">
-              Airport Transfers
-            </Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-yellow-500">Airport</span> Transfer Services
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              Reliable airport transfers from Norwich to all major UK airports.
-              We monitor flight times and adjust pickup accordingly.
-            </p>
-          </div>
-
-          {/* Airport Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {airportRoutes.map((airport) => (
-              <Card
-                key={airport.code}
-                className="bg-gray-900 border-gray-800 hover:border-yellow-500/50 transition-all overflow-hidden group"
-              >
-                <div className="h-32 sm:h-40 relative overflow-hidden">
-                  <img 
-                    src={airport.image} 
-                    alt={airport.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-yellow-500 text-black font-bold">{airport.code}</Badge>
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <Plane className="w-8 h-8 sm:w-12 sm:h-12 text-yellow-500" />
-                  </div>
-                </div>
-                <CardContent className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{airport.name}</h3>
-                  <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-4">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                      <span>{airport.distance} miles</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Timer className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                      <span>{airport.estimatedTime}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-500 text-xs">From</p>
-                      <p className="text-xl sm:text-2xl font-bold text-yellow-500">
-                        £{airport.basePrice}
-                      </p>
-                    </div>
-                    <Button
-                      onClick={() => openAirportBooking(airport.name)}
-                      className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold"
-                    >
-                      Book Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Flight Monitoring Note */}
-          <div className="mt-10 sm:mt-12 text-center">
-            <Card className="inline-block bg-yellow-500/10 border-yellow-500/30">
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-                  </div>
-                  <div className="text-left">
-                    <h4 className="text-base sm:text-lg font-bold text-white">
-                      Flight Monitoring Included
-                    </h4>
-                    <p className="text-gray-400 text-xs sm:text-sm">
-                      We track your flight and adjust pickup time for delays - no extra charge
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-16 sm:py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              Why <span className="text-yellow-500">Choose</span> Us
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-              We're committed to providing the best taxi service in Norwich.
-              Here's what makes us different.
-            </p>
-          </div>
-
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {services.map((service, index) => (
-              <Card
-                key={index}
-                className="bg-gray-800 border-gray-700 hover:border-yellow-500/50 transition-all group"
-              >
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-500/20 transition-colors">
-                    <div className="text-yellow-500">{service.icon}</div>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{service.title}</h3>
-                  <p className="text-gray-400 text-sm">{service.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Testimonials */}
-          <div className="mt-12 sm:mt-16">
-            <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">
-              What Our <span className="text-yellow-500">Customers</span> Say
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-              {[
-                {
-                  name: "Sarah M.",
-                  text: "Excellent service! Driver was on time and very professional. Will definitely use again.",
-                  rating: 5,
-                },
-                {
-                  name: "John D.",
-                  text: "Best airport transfer service in Norwich. Fixed prices and clean vehicles.",
-                  rating: 5,
-                },
-                {
-                  name: "Emily R.",
-                  text: "Used Alitaxis for my trip to Heathrow. Smooth journey and great value for money.",
-                  rating: 5,
-                },
-              ].map((testimonial, index) => (
-                <Card key={index} className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="flex gap-1 mb-3 sm:mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                      ))}
-                    </div>
-                    <p className="text-gray-300 mb-3 sm:mb-4 text-sm sm:text-base">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-yellow-500 font-semibold text-sm sm:text-base">
-                      - {testimonial.name}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
-            {/* Contact Info */}
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">
-                <span className="text-yellow-500">Contact</span> Us
-              </h2>
-              <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
-                Have questions or need a quote? Get in touch with us. We're available 24/7.
+            {/* Middle */}
+            <div className="heroMiddle">
+              <div className="heroMiddleIcon">
+                <div className="heroMiddleIconCircle"><Plane /></div>
+              </div>
+              <h2 className="heroMiddleTitle">AIRPORT TRANSFERS</h2>
+              <p className="heroMiddleDesc">
+                Reliable transfers to all major UK airports — Heathrow, Gatwick, Stansted & Luton.
               </p>
+              <div className="airportGrid">
+                {airportRoutes.map(airport => (
+                  <div key={airport.code} className="airportCard">
+                    <p className="airportCardName">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+                      {airport.name.replace(" Airport", "")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-              <div className="space-y-4 sm:space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
+            {/* Right - Quick Quote */}
+            <div className="heroRight">
+              <div className="quoteCard">
+                <h3 className="quoteTitle">Request Quote</h3>
+                <p className="quoteSubtitle">Send us your trip details and we'll get back to you with the best price.</p>
+                <div className="quoteForm">
+                  <div>
+                    <label className="quoteLabel">Pickup Location</label>
+                    <div className="quoteInputWrap">
+                      <svg className="quoteInputIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <input className="quoteInputIcon-input" placeholder="Enter pickup address"
+                        value={bookingForm.pickupLocation}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupLocation: e.target.value })} />
+                    </div>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">Phone</p>
-                    <a href="tel:077XXXXXXXX" className="text-white hover:text-yellow-500 font-semibold text-sm sm:text-base">
-                      077 XXX XXXXXX
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
-                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
+                    <label className="quoteLabel">Dropoff Location</label>
+                    <div className="quoteInputWrap">
+                      <svg className="quoteInputIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <input className="quoteInputIcon-input" placeholder="Enter destination"
+                        value={bookingForm.dropoffLocation}
+                        onChange={e => setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })} />
+                    </div>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">Email</p>
-                    <a href="mailto:Alixxxxxxxxxxxx@gmail.com" className="text-white hover:text-yellow-500 font-semibold text-sm sm:text-base">
-                      Alixxxxxxxxxxxx@gmail.com
-                    </a>
+                    <label className="quoteLabel">Your Contact (Email or Phone)</label>
+                    <div className="quoteInputWrap">
+                      <svg className="quoteInputIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      <input className="quoteInputIcon-input" placeholder="Enter email or phone number"
+                        value={bookingForm.customerPhone}
+                        onChange={e => setBookingForm({ ...bookingForm, customerPhone: e.target.value })} />
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
-                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
+                  <div className="quoteRow">
+                    <div>
+                      <label className="quoteLabel">Date</label>
+                      <input type="date" className="quoteInput"
+                        value={bookingForm.pickupDate}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupDate: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="quoteLabel">Time</label>
+                      <input type="time" className="quoteInput"
+                        value={bookingForm.pickupTime}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupTime: e.target.value })} />
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">Location</p>
-                    <p className="text-white font-semibold text-sm sm:text-base">Norwich, UK</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
-                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500" />
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-xs sm:text-sm">Hours</p>
-                    <p className="text-white font-semibold text-sm sm:text-base">24/7 Available</p>
-                  </div>
+                  <button className="quoteSubmitBtn" onClick={() => setIsBookingOpen(true)}>
+                    Get Quote & Book
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div>
-              <Card className="bg-gray-900 border-gray-800">
-                <CardContent className="p-4 sm:p-6 lg:p-8">
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
-                    Send us a Message
-                  </h3>
-                  <form className="space-y-4">
-                    <div>
-                      <Label className="text-gray-300">Name</Label>
-                      <Input placeholder="Your name" className="bg-gray-800 border-gray-700 text-white mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300">Email</Label>
-                      <Input type="email" placeholder="Your email" className="bg-gray-800 border-gray-700 text-white mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300">Phone</Label>
-                      <Input placeholder="Your phone number" className="bg-gray-800 border-gray-700 text-white mt-1" />
-                    </div>
-                    <div>
-                      <Label className="text-gray-300">Message</Label>
-                      <Textarea
-                        placeholder="How can we help you?"
-                        className="bg-gray-800 border-gray-700 text-white mt-1"
-                        rows={4}
-                      />
-                    </div>
-                    <Button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 sm:py-6">
-                      Send Message
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
           </div>
+        </div>
+
+        <div className="scrollIndicator">
+          <div className="scrollDot"><div className="scrollDotInner" /></div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 border-t border-gray-800 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {/* Company Info */}
-            <div>
-              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <Car className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+      {/* ===== BOOK TAXI ===== */}
+      <section id="book" className="sectionDark">
+        <div className="sectionInner">
+          <div className="sectionHeader">
+            <span className="sectionTag">Book a Ride</span>
+            <h2 className="sectionTitle"><span className="sectionTitleYellow">Book</span> Your Taxi</h2>
+            <p className="sectionDesc">Fill in your journey details and we'll provide you with an instant quote. Long-distance travel made easy.</p>
+          </div>
+
+          <div className="vehicleGrid">
+            {vehicleTypes.map(v => (
+              <div key={v.id}
+                className={bookingForm.vehicleType === v.id ? "vehicleCard vehicleCardActive" : "vehicleCard"}
+                onClick={() => setBookingForm({ ...bookingForm, vehicleType: v.id })}>
+                {v.badge && <span className="vehicleBadge">{v.badge}</span>}
+                <div className="vehicleImgWrap">
+                  <img src={v.image} alt={v.name} className="vehicleImg" />
+                  <div className="vehicleImgOverlay" />
+                </div>
+                <div className="vehicleCardBody">
+                  <h3 className="vehicleName">{v.name}</h3>
+                  <p className="vehicleDesc">{v.description}</p>
+                  <div className="vehicleMeta">
+                    <span className="vehicleMetaItem"><Users /><span>{v.capacity} Passengers</span></span>
+                    <span className="vehicleMetaItem"><Luggage /><span>{v.luggage} Bags</span></span>
+                  </div>
+                  <p className="vehiclePrice">£{v.pricePerMile.toFixed(2)}<span className="vehiclePriceSub">/mile</span></p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile form */}
+          <div className="mobileForm">
+            <div className="formCard">
+              <div className="formGroup">
+                <label className="formLabel">Pickup Location</label>
+                <input className="formInput" placeholder="Enter pickup address"
+                  value={bookingForm.pickupLocation}
+                  onChange={e => setBookingForm({ ...bookingForm, pickupLocation: e.target.value })} />
+              </div>
+              <div className="formGroup">
+                <label className="formLabel">Dropoff Location</label>
+                <input className="formInput" placeholder="Enter destination"
+                  value={bookingForm.dropoffLocation}
+                  onChange={e => setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })} />
+              </div>
+              <div className="formRow" style={{ marginBottom: 16 }}>
+                <div>
+                  <label className="formLabel">Date</label>
+                  <input type="date" className="formInput"
+                    value={bookingForm.pickupDate}
+                    onChange={e => setBookingForm({ ...bookingForm, pickupDate: e.target.value })} />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-yellow-500">ALITAXIS</h3>
-                  <p className="text-xs text-gray-400">NORWICH LTD</p>
+                  <label className="formLabel">Time</label>
+                  <input type="time" className="formInput"
+                    value={bookingForm.pickupTime}
+                    onChange={e => setBookingForm({ ...bookingForm, pickupTime: e.target.value })} />
                 </div>
               </div>
-              <p className="text-gray-400 text-xs sm:text-sm">
-                Your trusted partner for long-distance taxi services and airport transfers
-                from Norwich.
-              </p>
+              <button className="btnYellowLg" style={{ width: "100%", justifyContent: "center" }}
+                onClick={() => setIsBookingOpen(true)}>
+                Complete Booking <ArrowRight />
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop info cards */}
+          <div className="infoGrid">
+            <div className="infoCard"><Calendar /><h3 className="infoCardTitle">Easy Booking</h3><p className="infoCardDesc">Book online or call us. We'll confirm your ride within minutes.</p></div>
+            <div className="infoCard"><Shield /><h3 className="infoCardTitle">Safe & Reliable</h3><p className="infoCardDesc">All drivers are DBS checked and vehicles are regularly maintained.</p></div>
+            <div className="infoCard"><CreditCard /><h3 className="infoCardTitle">Fixed Pricing</h3><p className="infoCardDesc">No hidden charges. The price you see is the price you pay.</p></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== AIRPORTS ===== */}
+      <section id="airports" className="sectionBlack">
+        <div className="sectionInner">
+          <div className="sectionHeader">
+            <span className="airportSectionBadge">Airport Transfers</span>
+            <h2 className="sectionTitle"><span className="sectionTitleYellow">Airport</span> Transfer Services</h2>
+            <p className="sectionDesc">Reliable transfers from Norwich to all major UK airports. We monitor your flight and adjust pickup time at no extra cost.</p>
+          </div>
+
+          <div className="airportCards">
+            {airportRoutes.map(airport => (
+              <div key={airport.code} className="airportSectionCard">
+                <div className="airportImgWrap">
+                  <img src={airport.image} alt={airport.name} className="airportImg" />
+                  <div className="airportImgOverlay" />
+                  <span className="airportBadge">{airport.code}</span>
+                  <div className="airportPlaneIcon"><Plane /></div>
+                </div>
+                <div className="airportCardBody">
+                  <h3 className="airportCardTitle">{airport.name}</h3>
+                  <div className="airportCardMeta">
+                    <span className="airportCardMetaItem"><MapPin />{airport.distance} miles</span>
+                    <span className="airportCardMetaItem"><Timer />{airport.estimatedTime}</span>
+                  </div>
+                  <div className="airportCardFooter">
+                    <div>
+                      <p className="airportFromLabel">From</p>
+                      <p className="airportFromPrice">£{airport.basePrice}</p>
+                    </div>
+                    <button className="btnYellow" onClick={() => openAirportBooking(airport.name)}>Book Now</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flightMonitorBox">
+            <div className="flightMonitorCard">
+              <div className="flightMonitorInner">
+                <div className="flightMonitorIcon"><CheckCircle /></div>
+                <div className="flightMonitorText">
+                  <h4 className="flightMonitorTitle">Flight Monitoring Included</h4>
+                  <p className="flightMonitorDesc">We track your flight and adjust pickup time for delays - no extra charge</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SERVICES ===== */}
+      <section id="services" className="sectionDark">
+        <div className="sectionInner">
+          <div className="sectionHeader">
+            <span className="sectionTag">Why Us</span>
+            <h2 className="sectionTitle">Why <span className="sectionTitleYellow">Choose</span> Us</h2>
+            <p className="sectionDesc">We're committed to providing the best taxi service in Norwich. Here's what makes us different.</p>
+          </div>
+
+          <div className="servicesGrid">
+            {services.map((s, i) => (
+              <div key={i} className="serviceCard">
+                <div className="serviceIconWrap">{s.icon}</div>
+                <h3 className="serviceTitle">{s.title}</h3>
+                <p className="serviceDesc">{s.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="testimonialsTitle">What Our <span className="sectionTitleYellow">Customers</span> Say</h2>
+          <div className="testimonialsGrid">
+            {[
+              { name: "Sarah M.", text: "Excellent service! Driver was on time and very professional. Will definitely use again.", rating: 5 },
+              { name: "John D.",  text: "Best airport transfer service in Norwich. Fixed prices and clean vehicles.", rating: 5 },
+              { name: "Emily R.", text: "Used Alitaxis for my trip to Heathrow. Smooth journey and great value for money.", rating: 5 },
+            ].map((t, i) => (
+              <div key={i} className="testimonialCard">
+                <div className="testimonialStars">{[...Array(t.rating)].map((_, j) => <Star key={j} />)}</div>
+                <p className="testimonialText">"{t.text}"</p>
+                <p className="testimonialName">{t.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CONTACT ===== */}
+      <section id="contact" className="sectionBlack">
+        <div className="sectionInner">
+          <div className="contactGrid">
+            <div>
+              <h2 className="contactTitle"><span className="sectionTitleYellow">Contact</span> Us</h2>
+              <p className="contactDesc">Have questions or need a quote? Get in touch with us. We're available 24/7.</p>
+              <div className="contactItems">
+                <div className="contactItem">
+                  <div className="contactItemIcon"><Phone /></div>
+                  <div>
+                    <p className="contactItemLabel">Phone</p>
+                    <a href="tel:077XXXXXXXX" className="contactItemValue">077 XXX XXXXXX</a>
+                  </div>
+                </div>
+                <div className="contactItem">
+                  <div className="contactItemIcon"><Mail /></div>
+                  <div>
+                    <p className="contactItemLabel">Email</p>
+                    <a href="mailto:Alixxxxxxxxxxxx@gmail.com" className="contactItemValue">Alixxxxxxxxxxxx@gmail.com</a>
+                  </div>
+                </div>
+                <div className="contactItem">
+                  <div className="contactItemIcon"><MapPin /></div>
+                  <div>
+                    <p className="contactItemLabel">Location</p>
+                    <p className="contactItemValue">Norwich, UK</p>
+                  </div>
+                </div>
+                <div className="contactItem">
+                  <div className="contactItemIcon"><Clock /></div>
+                  <div>
+                    <p className="contactItemLabel">Hours</p>
+                    <p className="contactItemValue">24/7 Available</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Quick Links */}
             <div>
-              <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Quick Links</h4>
-              <ul className="space-y-1.5 sm:space-y-2">
-                {["Home", "Book Taxi", "Airport Transfers", "Services", "Contact"].map((link) => (
+              <div className="contactFormCard">
+                <h3 className="contactFormTitle">Send us a Message</h3>
+                <form className="contactForm">
+                  <div>
+                    <label className="formLabel">Name</label>
+                    <input className="contactInput" placeholder="Your name" />
+                  </div>
+                  <div>
+                    <label className="formLabel">Email</label>
+                    <input type="email" className="contactInput" placeholder="Your email" />
+                  </div>
+                  <div>
+                    <label className="formLabel">Phone</label>
+                    <input className="contactInput" placeholder="Your phone number" />
+                  </div>
+                  <div>
+                    <label className="formLabel">Message</label>
+                    <textarea className="contactTextarea" placeholder="How can we help you?" rows={4} />
+                  </div>
+                  <button type="submit" className="btnYellowLg" style={{ justifyContent: "center", width: "100%" }}>
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="footer">
+        <div className="footerInner">
+          <div className="footerGrid">
+            <div>
+              <div className="footerLogo">
+                <div className="footerLogoIcon"><Plane /></div>
+                <div>
+                  <p className="footerLogoName">ALITAXIS</p>
+                  <p className="footerLogoSub">NORWICH</p>
+                </div>
+              </div>
+              <p className="footerDesc">Your trusted partner for long-distance taxi services and airport transfers from Norwich.</p>
+            </div>
+
+            <div>
+              <h4 className="footerHeading">Quick Links</h4>
+              <ul className="footerList">
+                {["Home", "Book Taxi", "Airport Transfers", "Services", "Contact"].map(link => (
                   <li key={link}>
-                    <button
-                      onClick={() => scrollToSection(link.toLowerCase().replace(" ", ""))}
-                      className="text-gray-400 hover:text-yellow-500 transition-colors text-xs sm:text-sm"
-                    >
+                    <button className="footerLink"
+                      onClick={() => scrollToSection(link.toLowerCase().replace(/ /g, "").replace("transfers", "ports"))}>
                       {link}
                     </button>
                   </li>
@@ -958,288 +649,193 @@ export default function HomePage() {
               </ul>
             </div>
 
-            {/* Airport Transfers */}
             <div>
-              <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Airport Transfers</h4>
-              <ul className="space-y-1.5 sm:space-y-2">
-                {airportRoutes.map((airport) => (
-                  <li key={airport.code}>
-                    <button
-                      onClick={() => openAirportBooking(airport.name)}
-                      className="text-gray-400 hover:text-yellow-500 transition-colors text-xs sm:text-sm"
-                    >
-                      {airport.name}
-                    </button>
+              <h4 className="footerHeading">Airport Transfers</h4>
+              <ul className="footerList">
+                {airportRoutes.map(a => (
+                  <li key={a.code}>
+                    <button className="footerLink" onClick={() => openAirportBooking(a.name)}>{a.name}</button>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
-              <h4 className="text-white font-bold mb-3 sm:mb-4 text-sm sm:text-base">Contact</h4>
-              <ul className="space-y-1.5 sm:space-y-2 text-gray-400 text-xs sm:text-sm">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                  <span>077 XXX XXXXXX</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                  <span className="break-all">Alixxxxxxxxxxxx@gmail.com</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
-                  <span>Norwich, UK</span>
-                </li>
+              <h4 className="footerHeading">Contact</h4>
+              <ul className="footerList">
+                <li className="footerContactItem"><Phone /><span>077 XXX XXXXXX</span></li>
+                <li className="footerContactItem"><Mail /><span>Alixxxxxxxxxxxx@gmail.com</span></li>
+                <li className="footerContactItem"><MapPin /><span>Norwich, UK</span></li>
               </ul>
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
-            <p className="text-gray-500 text-xs sm:text-sm">
-              © {new Date().getFullYear()} Alitaxis Norwich Ltd. All rights reserved.
-            </p>
+          <div className="footerBottom">
+            <p className="footerCopy">© {new Date().getFullYear()} AliTaxis Norwich. All rights reserved.</p>
+            <div className="footerBottomRight">
+              <span>Licensed & Insured</span>
+              <span className="footerBottomDot" />
+              <span>24/7 Available</span>
+              <span className="footerBottomDot" />
+              <span>Fixed Prices</span>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* Booking Dialog */}
-      <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
-        <DialogContent className="bg-gray-900 border-gray-700 max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-yellow-500">
-              Complete Your Booking
-            </DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Fill in your details to confirm your taxi booking
-            </DialogDescription>
-          </DialogHeader>
+      {/* ===== BOOKING DIALOG ===== */}
+      {isBookingOpen && (
+        <div className="dialogOverlay" onClick={e => e.target === e.currentTarget && setIsBookingOpen(false)}>
+          <div className="dialogBox">
+            <button className="dialogClose" onClick={() => setIsBookingOpen(false)}><X /></button>
 
-          {bookingSuccess ? (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-white" />
+            <h2 className="dialogTitle">Complete Your <span>Booking</span></h2>
+            <p className="dialogSubtitle">Fill in your details below to confirm your taxi booking</p>
+
+            {/* Live location banner */}
+            <div className="locationBanner">
+              <div className="locationBannerLeft">
+                <MapPin size={16} />
+                <div>
+                  <p className="locationBannerTitle">
+                    {locationStatus === "got" ? "Live location captured" :
+                     locationStatus === "fetching" ? "Detecting your location…" :
+                     locationStatus === "denied" ? "Location access denied" :
+                     "Use your live location for pickup"}
+                  </p>
+                  {locationStatus === "got" && userLocation && (
+                    <p className="locationBannerAddr">{userLocation.address.slice(0, 60)}…</p>
+                  )}
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h3>
-              <p className="text-gray-400">
-                We'll send you a confirmation email shortly.
-              </p>
+              {locationStatus === "idle" || locationStatus === "denied" ? (
+                <button type="button" className="locationBannerBtn" onClick={captureLocation}>
+                  {locationStatus === "denied" ? "Retry" : "Detect"}
+                </button>
+              ) : locationStatus === "got" ? (
+                <CheckCircle size={18} color="#22c55e" />
+              ) : (
+                <div className="locationSpinner" />
+              )}
             </div>
-          ) : (
-            <form onSubmit={handleBookingSubmit} className="space-y-4">
-              {/* Journey Details */}
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-                  Journey Details
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-gray-300">Pickup Location</Label>
-                    <Input
-                      required
-                      placeholder="e.g., Norwich City Centre"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.pickupLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, pickupLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-gray-300">Dropoff Location</Label>
-                    <Input
-                      required
-                      placeholder="e.g., Stansted Airport"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.dropoffLocation}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-gray-300">Pickup Date</Label>
-                    <Input
-                      required
-                      type="date"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.pickupDate}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, pickupDate: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-gray-300">Pickup Time</Label>
-                    <Input
-                      required
-                      type="time"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.pickupTime}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, pickupTime: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <Label className="text-gray-300">Passengers</Label>
-                    <Select
-                      value={bookingForm.passengers}
-                      onValueChange={(value) =>
-                        setBookingForm({ ...bookingForm, passengers: value })
-                      }
-                    >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                          <SelectItem key={n} value={n.toString()}>
-                            {n} {n === 1 ? "Passenger" : "Passengers"}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label className="text-gray-300">Luggage</Label>
-                    <Select
-                      value={bookingForm.luggage}
-                      onValueChange={(value) =>
-                        setBookingForm({ ...bookingForm, luggage: value })
-                      }
-                    >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        {[0, 1, 2, 3, 4, 5, 6].map((n) => (
-                          <SelectItem key={n} value={n.toString()}>
-                            {n} {n === 1 ? "Bag" : "Bags"}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label className="text-gray-300">Vehicle Type</Label>
-                    <Select
-                      value={bookingForm.vehicleType}
-                      onValueChange={(value) =>
-                        setBookingForm({ ...bookingForm, vehicleType: value })
-                      }
-                    >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white mt-1 h-11">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
-                        {vehicleTypes.map((v) => (
-                          <SelectItem key={v.id} value={v.id}>
-                            {v.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
 
-              {/* Customer Details */}
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white border-b border-gray-700 pb-2">
-                  Your Details
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-gray-300">Full Name</Label>
-                    <Input
-                      required
-                      placeholder="Your name"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.customerName}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, customerName: e.target.value })
-                      }
-                    />
+            {bookingSuccess ? (
+              <div className="successBox">
+                <div className="successIcon"><CheckCircle /></div>
+                <h3 className="successTitle">Booking Confirmed!</h3>
+                <p className="successDesc">We'll send you a confirmation email shortly.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleBookingSubmit} className="bookingForm">
+                <div className="bookingSection">
+                  <h4 className="bookingSectionTitle">Journey Details</h4>
+                  <div className="bookingGrid2">
+                    <div>
+                      <label className="formLabel">Pickup Location</label>
+                      <input required className="bookingInput" placeholder="e.g., Norwich City Centre"
+                        value={bookingForm.pickupLocation}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupLocation: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="formLabel">Dropoff Location</label>
+                      <input required className="bookingInput" placeholder="e.g., Stansted Airport"
+                        value={bookingForm.dropoffLocation}
+                        onChange={e => setBookingForm({ ...bookingForm, dropoffLocation: e.target.value })} />
+                    </div>
+                  </div>
+                  <div className="bookingGrid2">
+                    <div>
+                      <label className="formLabel">Pickup Date</label>
+                      <input required type="date" className="bookingInput"
+                        value={bookingForm.pickupDate}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupDate: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="formLabel">Pickup Time</label>
+                      <input required type="time" className="bookingInput"
+                        value={bookingForm.pickupTime}
+                        onChange={e => setBookingForm({ ...bookingForm, pickupTime: e.target.value })} />
+                    </div>
+                  </div>
+                  <div className="bookingGrid3">
+                    <div>
+                      <label className="formLabel">Passengers</label>
+                      <select className="bookingSelect" value={bookingForm.passengers}
+                        onChange={e => setBookingForm({ ...bookingForm, passengers: e.target.value })}>
+                        {[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n} {n === 1 ? "Passenger" : "Passengers"}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="formLabel">Luggage</label>
+                      <select className="bookingSelect" value={bookingForm.luggage}
+                        onChange={e => setBookingForm({ ...bookingForm, luggage: e.target.value })}>
+                        {[0,1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} {n === 1 ? "Bag" : "Bags"}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="formLabel">Vehicle Type</label>
+                      <select className="bookingSelect" value={bookingForm.vehicleType}
+                        onChange={e => setBookingForm({ ...bookingForm, vehicleType: e.target.value })}>
+                        {vehicleTypes.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bookingSection">
+                  <h4 className="bookingSectionTitle">Your Details</h4>
+                  <div className="bookingGrid2">
+                    <div>
+                      <label className="formLabel">Full Name</label>
+                      <input required className="bookingInput" placeholder="Your name"
+                        value={bookingForm.customerName}
+                        onChange={e => setBookingForm({ ...bookingForm, customerName: e.target.value })} />
+                    </div>
+                    <div>
+                      <label className="formLabel">Phone Number</label>
+                      <input required type="tel" className="bookingInput" placeholder="Your phone number"
+                        value={bookingForm.customerPhone}
+                        onChange={e => setBookingForm({ ...bookingForm, customerPhone: e.target.value })} />
+                    </div>
                   </div>
                   <div>
-                    <Label className="text-gray-300">Phone Number</Label>
-                    <Input
-                      required
-                      type="tel"
-                      placeholder="Your phone number"
-                      className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                      value={bookingForm.customerPhone}
-                      onChange={(e) =>
-                        setBookingForm({ ...bookingForm, customerPhone: e.target.value })
-                      }
-                    />
+                    <label className="formLabel">Email Address</label>
+                    <input required type="email" className="bookingInput" placeholder="Your email"
+                      value={bookingForm.customerEmail}
+                      onChange={e => setBookingForm({ ...bookingForm, customerEmail: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="formLabel">Special Requests (Optional)</label>
+                    <textarea className="bookingTextarea" placeholder="Any special requirements?"
+                      value={bookingForm.specialRequests}
+                      onChange={e => setBookingForm({ ...bookingForm, specialRequests: e.target.value })} />
                   </div>
                 </div>
-                <div>
-                  <Label className="text-gray-300">Email Address</Label>
-                  <Input
-                    required
-                    type="email"
-                    placeholder="Your email"
-                    className="bg-gray-800 border-gray-700 text-white mt-1 h-11"
-                    value={bookingForm.customerEmail}
-                    onChange={(e) =>
-                      setBookingForm({ ...bookingForm, customerEmail: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label className="text-gray-300">Special Requests (Optional)</Label>
-                  <Textarea
-                    placeholder="Any special requirements?"
-                    className="bg-gray-800 border-gray-700 text-white mt-1"
-                    value={bookingForm.specialRequests}
-                    onChange={(e) =>
-                      setBookingForm({ ...bookingForm, specialRequests: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
 
-              {/* Price Estimate */}
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300">Estimated Price</span>
-                  <span className="text-2xl font-bold text-yellow-500">
-                    £{(() => {
-                      const vehicle = vehicleTypes.find((v) => v.id === bookingForm.vehicleType);
-                      const airport = airportRoutes.find((a) =>
-                        bookingForm.dropoffLocation.toLowerCase().includes(a.name.toLowerCase())
-                      );
-                      if (airport && vehicle) {
-                        return Math.round(airport.basePrice * (vehicle.pricePerMile / 2));
-                      }
-                      return "Contact for Quote";
-                    })()}
-                  </span>
+                <div className="priceEstimate">
+                  <div className="priceEstimateRow">
+                    <span className="priceEstimateLabel">Estimated Price</span>
+                    <span className="priceEstimateValue">
+                      £{(() => {
+                        const v = vehicleTypes.find(v => v.id === bookingForm.vehicleType);
+                        const a = airportRoutes.find(a => bookingForm.dropoffLocation.toLowerCase().includes(a.name.toLowerCase()));
+                        if (a && v) return Math.round(a.basePrice * (v.pricePerMile / 2));
+                        return "—";
+                      })()}
+                    </span>
+                  </div>
+                  <p className="priceEstimateNote">Final price will be confirmed after booking review</p>
                 </div>
-                <p className="text-gray-500 text-xs mt-2">
-                  Final price will be confirmed after booking review
-                </p>
-              </div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-6"
-              >
-                {isSubmitting ? "Processing..." : "Confirm Booking"}
-              </Button>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
+                <button type="submit" className="bookingSubmitBtn" disabled={isSubmitting}>
+                  {isSubmitting ? "Processing..." : "Confirm Booking"}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

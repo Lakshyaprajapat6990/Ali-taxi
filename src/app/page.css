@@ -414,11 +414,20 @@
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  padding-top: 72px;
-  height: 100vh;
+  padding-top: 64px;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   align-items: stretch;
   overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    height: 100vh;
+    min-height: unset;
+    padding-top: 72px;
+  }
 }
 
 .heroBg {
@@ -446,20 +455,24 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  padding: 0 1rem;
+  padding: 24px 1rem 40px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
 }
 
 @media (min-width: 640px) {
+  .heroContent { padding: 24px 2rem 40px; }
+}
+
+@media (min-width: 1024px) {
   .heroContent { padding: 0 2rem; }
 }
 
 .heroGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 32px;
   align-items: center;
   padding-left: 0;
   width: 100%;
@@ -856,11 +869,18 @@
 
 /* Scroll indicator */
 .scrollIndicator {
+  display: none;
   position: absolute;
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
   animation: bounce 1s infinite;
+}
+
+@media (min-width: 1024px) {
+  .scrollIndicator {
+    display: block;
+  }
 }
 
 .scrollDot {

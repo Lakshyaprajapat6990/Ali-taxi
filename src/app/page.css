@@ -448,8 +448,16 @@
 
 @media (min-width: 768px) {
   .hero {
-    height: auto;
-    min-height: 100vh;
+    height: 520px;
+    min-height: unset;
+    padding-top: 64px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero {
+    height: 100vh;
+    min-height: unset;
     padding-top: 72px;
   }
 }
@@ -490,7 +498,11 @@
 }
 
 @media (min-width: 768px) {
-  .heroContent { padding: 48px 2rem 48px; align-items: center; }
+  .heroContent { padding: 24px 2rem 24px; align-items: center; }
+}
+
+@media (min-width: 1280px) {
+  .heroContent { padding: 0 2rem; }
 }
 
 .heroGrid {

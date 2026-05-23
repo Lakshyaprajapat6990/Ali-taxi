@@ -1,4 +1,4 @@
-/* Hide Next.js dev tools indicator */
+﻿/* Hide Next.js dev tools indicator */
 #devtools-indicator,
 [data-nextjs-toast],
 [data-next-badge-root] {
@@ -96,7 +96,7 @@
   gap: 48px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .desktopNav {
     display: flex;
   }
@@ -199,7 +199,7 @@
   gap: 16px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .headerRight {
     display: flex;
   }
@@ -348,7 +348,7 @@
   padding: 8px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mobileMenuBtn {
     display: none;
   }
@@ -422,7 +422,7 @@
   overflow: hidden;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .hero {
     height: 100vh;
     min-height: unset;
@@ -465,7 +465,7 @@
   .heroContent { padding: 24px 2rem 40px; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroContent { padding: 0 2rem; }
 }
 
@@ -478,7 +478,7 @@
   width: 100%;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroGrid {
     grid-template-columns: 1fr 2fr 472px;
     align-items: center;
@@ -492,7 +492,7 @@
   text-align: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroLeft {
     text-align: left;
   }
@@ -521,7 +521,7 @@
   .heroTitle { font-size: 4.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroTitle { font-size: 5.5rem; }
 }
 
@@ -540,7 +540,7 @@
   .heroTitleWhite { font-size: 2.8rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroTitleWhite { font-size: 3.8rem; }
 }
 
@@ -558,7 +558,7 @@
   .heroDesc { font-size: 1.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroDesc {
     margin-left: 0;
   }
@@ -572,7 +572,7 @@
   margin-bottom: 24px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroBadges {
     justify-content: flex-start;
   }
@@ -606,7 +606,7 @@
   justify-content: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroCtas {
     justify-content: flex-start;
   }
@@ -695,7 +695,7 @@
   .heroMiddleTitle { font-size: 2.8rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroMiddleTitle { font-size: 3.5rem; }
 }
 
@@ -744,7 +744,7 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .heroRight {
     display: flex;
     justify-content: flex-end;
@@ -877,7 +877,7 @@
   animation: bounce 1s infinite;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .scrollIndicator {
     display: block;
   }
@@ -918,7 +918,7 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionDark { padding: 100px 0; }
 }
 
@@ -928,7 +928,7 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionBlack { padding: 100px 0; }
 }
 
@@ -947,7 +947,7 @@
   margin-bottom: 36px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionHeader { margin-bottom: 64px; }
 }
 
@@ -977,7 +977,7 @@
   .sectionTitle { font-size: 2.2rem; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sectionTitle { font-size: 2.6rem; }
 }
 
@@ -1007,7 +1007,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .vehicleGrid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1138,7 +1138,7 @@
   margin-bottom: 40px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mobileForm {
     display: none;
   }
@@ -1196,7 +1196,7 @@
   gap: 24px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .infoGrid {
     display: grid;
   }
@@ -1265,7 +1265,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .airportCards {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1457,7 +1457,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .servicesGrid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1611,7 +1611,7 @@
   gap: 56px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .contactGrid {
     grid-template-columns: 1fr 1fr;
     align-items: start;
@@ -1782,7 +1782,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .footerGrid {
     grid-template-columns: 2fr 1fr 1fr 1fr;
   }
@@ -2186,3 +2186,4 @@
   font-size: 0.95rem;
   margin: 0;
 }
+

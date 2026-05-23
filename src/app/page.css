@@ -29,8 +29,12 @@
 
 .headerInner {
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1rem;
   box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .headerInner { padding: 0 2rem; }
 }
 
 .headerRow {
@@ -442,18 +446,22 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;
 }
 
+@media (min-width: 640px) {
+  .heroContent { padding: 0 2rem; }
+}
+
 .heroGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: 24px;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 0;
   width: 100%;
 }
 
@@ -490,10 +498,18 @@
 }
 
 .heroTitle {
-  font-size: 5.5rem;
+  font-size: 3rem;
   font-weight: 700;
   margin: 0 0 16px 0;
   line-height: 1.05;
+}
+
+@media (min-width: 640px) {
+  .heroTitle { font-size: 4.2rem; }
+}
+
+@media (min-width: 1024px) {
+  .heroTitle { font-size: 5.5rem; }
 }
 
 .heroTitleYellow {
@@ -503,18 +519,30 @@
 
 .heroTitleWhite {
   color: #fff;
-  font-size: 3.8rem;
+  font-size: 2rem;
   display: block;
+}
+
+@media (min-width: 640px) {
+  .heroTitleWhite { font-size: 2.8rem; }
+}
+
+@media (min-width: 1024px) {
+  .heroTitleWhite { font-size: 3.8rem; }
 }
 
 .heroDesc {
   color: #d1d5db;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 28px;
   max-width: 460px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .heroDesc { font-size: 1.2rem; }
 }
 
 @media (min-width: 1024px) {
@@ -540,12 +568,16 @@
 .heroBadgePill {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(234, 179, 8, 0.1);
-  padding: 10px 18px;
+  padding: 8px 14px;
   border-radius: 999px;
   color: #eab308;
-  font-size: 1rem;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .heroBadgePill { font-size: 1rem; padding: 10px 18px; gap: 8px; }
 }
 
 .heroBadgePill svg {
@@ -640,10 +672,18 @@
 }
 
 .heroMiddleTitle {
-  font-size: 3.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #eab308;
   margin: 0 0 14px 0;
+}
+
+@media (min-width: 640px) {
+  .heroMiddleTitle { font-size: 2.8rem; }
+}
+
+@media (min-width: 1024px) {
+  .heroMiddleTitle { font-size: 3.5rem; }
 }
 
 .heroMiddleDesc {
@@ -853,26 +893,42 @@
 
 /* ===== SHARED SECTION STYLES ===== */
 .sectionDark {
-  padding: 100px 0;
+  padding: 60px 0;
   background: #0a0f1a;
   position: relative;
 }
 
+@media (min-width: 1024px) {
+  .sectionDark { padding: 100px 0; }
+}
+
 .sectionBlack {
-  padding: 100px 0;
+  padding: 60px 0;
   background: #000;
   position: relative;
+}
+
+@media (min-width: 1024px) {
+  .sectionBlack { padding: 100px 0; }
 }
 
 .sectionInner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .sectionInner { padding: 0 2rem; }
 }
 
 .sectionHeader {
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: 36px;
+}
+
+@media (min-width: 1024px) {
+  .sectionHeader { margin-bottom: 64px; }
 }
 
 .sectionTag {
@@ -890,11 +946,19 @@
 }
 
 .sectionTitle {
-  font-size: 2.6rem;
+  font-size: 1.8rem;
   font-weight: 800;
   margin: 0 0 16px 0;
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+@media (min-width: 640px) {
+  .sectionTitle { font-size: 2.2rem; }
+}
+
+@media (min-width: 1024px) {
+  .sectionTitle { font-size: 2.6rem; }
 }
 
 .sectionTitleYellow {
@@ -1535,11 +1599,15 @@
 }
 
 .contactTitle {
-  font-size: 2.6rem;
+  font-size: 1.8rem;
   font-weight: 800;
   margin: 0 0 16px 0;
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+@media (min-width: 640px) {
+  .contactTitle { font-size: 2.6rem; }
 }
 
 .contactDesc {
@@ -1843,14 +1911,18 @@
 .dialogBox {
   background: #0d1220;
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 36px 32px;
+  border-radius: 16px;
+  padding: 24px 16px;
   width: 100%;
   max-width: 700px;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
   position: relative;
   box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+}
+
+@media (min-width: 640px) {
+  .dialogBox { padding: 36px 32px; border-radius: 20px; }
 }
 
 .dialogClose {

@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import "./page.css";
 
-const vehicleTypes = [
+const defaultVehicleTypes = [
   { id: "economy",   name: "Economy",   description: "Comfortable saloon for budget-conscious travellers", capacity: 4, luggage: 2, pricePerMile: 1.8, image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&q=80", badge: "Best Value" },
   { id: "standard",  name: "Standard",  description: "Spacious saloon with extra legroom & comfort",       capacity: 4, luggage: 3, pricePerMile: 2.2, image: "https://images.unsplash.com/photo-1605559424843-9073c6e102c6?w=400&q=80", badge: "Popular" },
   { id: "executive", name: "Executive", description: "Premium vehicle for business travellers",            capacity: 4, luggage: 3, pricePerMile: 3.0, image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80", badge: "Business" },
@@ -50,6 +50,7 @@ export default function HomePage() {
   const [activeSection, setActiveSection] = useState("home");
   const [isSubmitting, setIsSubmitting]   = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [vehicleTypes, setVehicleTypes]   = useState(defaultVehicleTypes);
 
   // Auth state
   const [user, setUser] = useState<{ id: string; name: string; email: string; role: string } | null>(null);
@@ -75,6 +76,13 @@ export default function HomePage() {
           customerEmail: d.user.email || "",
           customerPhone: d.user.phone || "",
         }));
+      }
+    }).catch(() => {});
+
+    // Fetch site content (vehicles, etc.) from CMS
+    fetch("/api/content").then(r => r.json()).then(d => {
+      if (d.vehicles && Array.isArray(d.vehicles) && d.vehicles.length > 0) {
+        setVehicleTypes(d.vehicles);
       }
     }).catch(() => {});
   }, []);

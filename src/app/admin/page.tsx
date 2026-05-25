@@ -6,7 +6,7 @@ import {
   CheckCircle, XCircle, AlertCircle, RefreshCw,
   TrendingUp, Calendar, MessageSquare, Eye, ChevronDown,
   Plane, Search, Filter, LogOut, Navigation, Edit3,
-  Save, Plus, Trash2, Image, Type, Globe, Upload, X,
+  Save, Plus, Trash2, Image, Type, Globe, Upload, X, UserCheck,
 } from "lucide-react";
 
 /* ─── Types ─── */
@@ -21,6 +21,7 @@ interface Booking {
   user?: BookingUser; dropoffLocation: string; pickupDate: string; pickupTime: string;
   passengers: number; luggage: number; vehicleType: string; specialRequests?: string;
   price: number; status: BookingStatus; createdAt: string;
+  driverName?: string; driverPhone?: string; taxiNumber?: string;
 }
 interface Contact {
   id: string; name: string; email: string; phone: string; message: string;
@@ -504,6 +505,8 @@ export default function AdminDashboard() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [updating, setUpdating]   = useState<string | null>(null);
+  const [driverForm, setDriverForm] = useState({ driverName: "", driverPhone: "", taxiNumber: "" });
+  const [savingDriver, setSavingDriver] = useState(false);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -538,6 +541,25 @@ export default function AdminDashboard() {
         if (selectedContact?.id === id) setSelectedContact(prev => prev ? { ...prev, status } : prev);
       }
     } finally { setUpdating(null); }
+  };
+
+  const saveDriverDetails = async () => {
+    if (!selectedBooking) return;
+    setSavingDriver(true);
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selectedBooking.id, ...driverForm }),
+      });
+      if (res.ok) {
+        const updated = { ...selectedBooking, ...driverForm };
+        setSelectedBooking(updated);
+        setBookings(prev => prev.map(b => b.id === selectedBooking.id ? { ...b, ...driverForm } : b));
+      }
+    } finally {
+      setSavingDriver(false);
+    }
   };
 
   const stats = {
@@ -774,7 +796,7 @@ export default function AdminDashboard() {
                     <td style={{ padding: "14px 16px" }}><StatusBadge status={b.status} /></td>
                     <td style={{ padding: "14px 16px" }}>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                        <button onClick={() => setSelectedBooking(b)} style={{ background: "rgba(255,255,255,0.06)", border: "none", borderRadius: 7, color: "#9ca3af", padding: "5px 9px", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem" }}><Eye size={12} /> View</button>
+                        <button onClick={() => { setSelectedBooking(b); setDriverForm({ driverName: b.driverName || "", driverPhone: b.driverPhone || "", taxiNumber: b.taxiNumber || "" }); }} style={{ background: "rgba(255,255,255,0.06)", border: "none", borderRadius: 7, color: "#9ca3af", padding: "5px 9px", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: "0.75rem" }}><Eye size={12} /> View</button>
                         {b.status === "pending" && <button onClick={() => updateBookingStatus(b.id, "confirmed")} disabled={updating === b.id} style={{ background: "rgba(59,130,246,0.15)", border: "none", borderRadius: 7, color: "#60a5fa", padding: "5px 9px", cursor: "pointer", fontSize: "0.75rem", fontWeight: 600 }}>Confirm</button>}
                         {b.status === "confirmed" && <button onClick={() => updateBookingStatus(b.id, "completed")} disabled={updating === b.id} style={{ background: "rgba(34,197,94,0.15)", border: "none", borderRadius: 7, color: "#4ade80", padding: "5px 9px", cursor: "pointer", fontSize: "0.75rem", fontWeight: 600 }}>Complete</button>}
                         {(b.status === "pending" || b.status === "confirmed") && <button onClick={() => updateBookingStatus(b.id, "cancelled")} disabled={updating === b.id} style={{ background: "rgba(239,68,68,0.12)", border: "none", borderRadius: 7, color: "#f87171", padding: "5px 9px", cursor: "pointer", fontSize: "0.75rem" }}>Cancel</button>}
@@ -893,6 +915,35 @@ export default function AdminDashboard() {
                 </div>
               </div>
             )}
+            {/* ── Driver Details Assignment ── */}
+            <div style={{ marginBottom: 20 }}>
+              <p style={{ margin: "0 0 10px", fontSize: "0.7rem", fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: "0.1em" }}>Assign Driver Details</p>
+              <div style={{ background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.15)", borderRadius: 12, padding: "16px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+                  <div>
+                    <label style={labelStyle}>Driver Name</label>
+                    <input value={driverForm.driverName} onChange={e => setDriverForm(f => ({ ...f, driverName: e.target.value }))} placeholder="e.g. John Smith" style={fieldStyle} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Driver Phone</label>
+                    <input value={driverForm.driverPhone} onChange={e => setDriverForm(f => ({ ...f, driverPhone: e.target.value }))} placeholder="e.g. 07700 900000" style={fieldStyle} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Taxi Number</label>
+                    <input value={driverForm.taxiNumber} onChange={e => setDriverForm(f => ({ ...f, taxiNumber: e.target.value }))} placeholder="e.g. AB12 CDE" style={fieldStyle} />
+                  </div>
+                </div>
+                <button onClick={saveDriverDetails} disabled={savingDriver} style={{ background: savingDriver ? "rgba(59,130,246,0.3)" : "#3b82f6", color: "#fff", border: "none", borderRadius: 8, padding: "8px 18px", cursor: savingDriver ? "not-allowed" : "pointer", fontWeight: 700, fontSize: "0.85rem", display: "flex", alignItems: "center", gap: 6 }}>
+                  <Save size={13} /> {savingDriver ? "Saving…" : "Save Driver Details"}
+                </button>
+                {(selectedBooking.driverName || selectedBooking.driverPhone || selectedBooking.taxiNumber) && (
+                  <div style={{ marginTop: 10, padding: "10px 12px", background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.15)", borderRadius: 8 }}>
+                    <p style={{ margin: 0, fontSize: "0.72rem", color: "#4ade80", fontWeight: 700 }}>✓ Driver assigned — customer can see these details in their dashboard</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
               <div style={{ flex: 1, background: "rgba(234,179,8,0.06)", border: "1px solid rgba(234,179,8,0.15)", borderRadius: 12, padding: "14px 16px" }}>
                 <p style={{ margin: "0 0 4px", fontSize: "0.7rem", color: "#6b7280", textTransform: "uppercase" }}>Estimated Price</p>

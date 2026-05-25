@@ -107,9 +107,14 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     await connectDB();
-    const { id, status } = await request.json();
+    const { id, status, driverName, driverPhone, taxiNumber } = await request.json();
+    const updateData: any = {};
+    if (status !== undefined) updateData.status = status;
+    if (driverName !== undefined) updateData.driverName = driverName;
+    if (driverPhone !== undefined) updateData.driverPhone = driverPhone;
+    if (taxiNumber !== undefined) updateData.taxiNumber = taxiNumber;
     const booking = await Booking.findByIdAndUpdate(
-      id, { status }, { new: true }
+      id, updateData, { new: true }
     ).populate("userId", "name email phone");
 
     if (!booking) return NextResponse.json({ error: "Booking not found" }, { status: 404 });

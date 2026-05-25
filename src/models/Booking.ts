@@ -21,6 +21,10 @@ export interface IBooking extends Document {
   locationAddress?: string;
   // Linked user (optional)
   userId?: mongoose.Types.ObjectId;
+  // Driver details (filled by admin on confirmation)
+  driverName?: string;
+  driverPhone?: string;
+  taxiNumber?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -44,6 +48,9 @@ const BookingSchema = new Schema<IBooking>(
     locationLng:     { type: Number, default: null },
     locationAddress: { type: String, default: null },
     userId:          { type: Schema.Types.ObjectId, ref: "User", default: null },
+    driverName:      { type: String, default: null },
+    driverPhone:     { type: String, default: null },
+    taxiNumber:      { type: String, default: null },
   },
   { timestamps: true }
 );

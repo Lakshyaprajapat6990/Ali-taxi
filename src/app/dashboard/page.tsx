@@ -26,6 +26,9 @@ interface Booking {
   locationLng?: number;
   locationAddress?: string;
   createdAt: string;
+  driverName?: string;
+  driverPhone?: string;
+  taxiNumber?: string;
 }
 
 interface User {
@@ -324,12 +327,51 @@ export default function UserDashboard() {
               </div>
             )}
 
+            {/* Driver details — shown when assigned */}
+            {(selected.driverName || selected.driverPhone || selected.taxiNumber) ? (
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ margin: "0 0 10px", fontSize: "0.7rem", fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: "0.1em" }}>Your Driver</p>
+                <div style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 12, padding: "16px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                    {selected.driverName && (
+                      <div>
+                        <p style={{ margin: "0 0 4px", fontSize: "0.68rem", color: "#4b5563", textTransform: "uppercase", fontWeight: 700 }}>Driver Name</p>
+                        <p style={{ margin: 0, fontSize: "0.9rem", fontWeight: 700, color: "#fff" }}>{selected.driverName}</p>
+                      </div>
+                    )}
+                    {selected.driverPhone && (
+                      <div>
+                        <p style={{ margin: "0 0 4px", fontSize: "0.68rem", color: "#4b5563", textTransform: "uppercase", fontWeight: 700 }}>Driver Phone</p>
+                        <a href={`tel:${selected.driverPhone}`} style={{ margin: 0, fontSize: "0.9rem", fontWeight: 700, color: "#60a5fa", textDecoration: "none" }}>{selected.driverPhone}</a>
+                      </div>
+                    )}
+                    {selected.taxiNumber && (
+                      <div>
+                        <p style={{ margin: "0 0 4px", fontSize: "0.68rem", color: "#4b5563", textTransform: "uppercase", fontWeight: 700 }}>Taxi Number</p>
+                        <p style={{ margin: 0, fontSize: "0.9rem", fontWeight: 700, color: "#eab308" }}>{selected.taxiNumber}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : selected.status === "confirmed" ? (
+              <div style={{ marginBottom: 16, padding: "12px 16px", background: "rgba(234,179,8,0.05)", border: "1px solid rgba(234,179,8,0.15)", borderRadius: 10 }}>
+                <p style={{ margin: 0, fontSize: "0.82rem", color: "#eab308" }}>⏳ Driver details will be assigned shortly. Please check back soon.</p>
+              </div>
+            ) : null}
+
             {/* Contact us */}
             <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
-              <a href="tel:077XXXXXXXX" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "#eab308", color: "#000", fontWeight: 700, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
-                <Phone size={14} /> Call Driver
-              </a>
-              <a href="mailto:Alixxxxxxxxxxxx@gmail.com" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "rgba(255,255,255,0.05)", color: "#d1d5db", border: "1px solid rgba(255,255,255,0.08)", fontWeight: 600, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
+              {selected.driverPhone ? (
+                <a href={`tel:${selected.driverPhone}`} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "#eab308", color: "#000", fontWeight: 700, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
+                  <Phone size={14} /> Call Driver
+                </a>
+              ) : (
+                <a href="tel:+441234567890" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "#eab308", color: "#000", fontWeight: 700, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
+                  <Phone size={14} /> Call AliTaxis
+                </a>
+              )}
+              <a href="mailto:alitaxis@example.com" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "rgba(255,255,255,0.05)", color: "#d1d5db", border: "1px solid rgba(255,255,255,0.08)", fontWeight: 600, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
                 <Mail size={14} /> Email Us
               </a>
             </div>

@@ -45,12 +45,19 @@ const services = [
 ];
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen]       = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [isSubmitting, setIsSubmitting]   = useState(false);
+  const [isMenuOpen, setIsMenuOpen]         = useState(false);
+  const [isBookingOpen, setIsBookingOpen]   = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [activeSection, setActiveSection]   = useState("home");
+  const [isSubmitting, setIsSubmitting]     = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [vehicleTypes, setVehicleTypes]   = useState(defaultVehicleTypes);
+  const [vehicleTypes, setVehicleTypes]     = useState(defaultVehicleTypes);
+
+  const openBooking = () => {
+    if (!user) { setShowLoginPrompt(true); return; }
+    setIsBookingOpen(true);
+    captureLocation();
+  };
 
   // Auth state
   const [user, setUser] = useState<{ id: string; name: string; email: string; role: string } | null>(null);
@@ -169,6 +176,7 @@ export default function HomePage() {
   };
 
   const openAirportBooking = (airportName: string) => {
+    if (!user) { setShowLoginPrompt(true); return; }
     setBookingForm(prev => ({ ...prev, dropoffLocation: airportName }));
     setIsBookingOpen(true);
   };
@@ -246,7 +254,7 @@ export default function HomePage() {
               ) : (
                 <a href="/login" className="headerLoginBtn">Sign In</a>
               )}
-              <button className="btnYellow" onClick={() => { setIsBookingOpen(true); captureLocation(); }}>Book Now</button>
+              <button className="btnYellow" onClick={openBooking}>Book Now</button>
             </div>
 
             {/* Mobile menu toggle */}
@@ -268,7 +276,7 @@ export default function HomePage() {
               ))}
               <div className="mobileNavFooter">
                 <a href="tel:077XXXXXXXX" className="mobileNavPhone"><Phone /><span>077 XXX XXXXXX</span></a>
-                <button className="btnYellow mobileBookBtn" onClick={() => { setIsBookingOpen(true); setIsMenuOpen(false); }}>
+                <button className="btnYellow mobileBookBtn" onClick={() => { setIsMenuOpen(false); openBooking(); }}>
                   Book Now
                 </button>
               </div>
@@ -304,7 +312,7 @@ export default function HomePage() {
                 <span className="heroBadgePill"><CreditCard />Fixed Prices</span>
               </div>
               <div className="heroCtas">
-                <button className="btnYellowLg" onClick={() => setIsBookingOpen(true)}>
+                <button className="btnYellowLg" onClick={openBooking}>
                   Book Your Ride <ArrowRight />
                 </button>
                 <a href="tel:077XXXXXXXX" className="btnOutlineLg">
@@ -381,7 +389,7 @@ export default function HomePage() {
                         onChange={e => setBookingForm({ ...bookingForm, pickupTime: e.target.value })} />
                     </div>
                   </div>
-                  <button className="quoteSubmitBtn" onClick={() => setIsBookingOpen(true)}>
+                  <button className="quoteSubmitBtn" onClick={openBooking}>
                     Get Quote & Book
                   </button>
                 </div>
@@ -458,7 +466,7 @@ export default function HomePage() {
                 </div>
               </div>
               <button className="btnYellowLg" style={{ width: "100%", justifyContent: "center" }}
-                onClick={() => setIsBookingOpen(true)}>
+                onClick={openBooking}>
                 Complete Booking <ArrowRight />
               </button>
             </div>
@@ -690,6 +698,32 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* ===== LOGIN REQUIRED POPUP ===== */}
+      {showLoginPrompt && (
+        <div className="dialogOverlay" onClick={e => e.target === e.currentTarget && setShowLoginPrompt(false)}>
+          <div className="dialogBox" style={{ maxWidth: 420, textAlign: "center", padding: "48px 36px" }}>
+            <button className="dialogClose" onClick={() => setShowLoginPrompt(false)}><X /></button>
+            <div style={{ width: 64, height: 64, background: "rgba(234,179,8,0.15)", border: "2px solid rgba(234,179,8,0.4)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+              <Shield style={{ width: 28, height: 28, color: "#eab308" }} />
+            </div>
+            <h2 className="dialogTitle" style={{ fontSize: "1.6rem", marginBottom: 10 }}>Login <span>Required</span></h2>
+            <p style={{ color: "#9ca3af", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: 32 }}>
+              Please sign in or create an account to book your taxi. It only takes a minute!
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+              <a href="/login" className="btnYellowLg" style={{ textDecoration: "none", padding: "12px 28px", fontSize: "1rem" }}>
+                Sign In
+              </a>
+              <a href="/register" style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 8, border: "2px solid #eab308", color: "#eab308", fontWeight: 700, fontSize: "1rem", textDecoration: "none", transition: "background 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(234,179,8,0.1)") }
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                Register
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===== BOOKING DIALOG ===== */}
       {isBookingOpen && (

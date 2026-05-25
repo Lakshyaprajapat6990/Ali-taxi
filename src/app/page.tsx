@@ -21,37 +21,59 @@ import {
 } from "lucide-react";
 import "./page.css";
 
-const defaultVehicleTypes = [
-  { id: "economy",   name: "Economy",   description: "Comfortable saloon for budget-conscious travellers", capacity: 4, luggage: 2, pricePerMile: 1.8, image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&q=80", badge: "Best Value" },
-  { id: "standard",  name: "Standard",  description: "Spacious saloon with extra legroom & comfort",       capacity: 4, luggage: 3, pricePerMile: 2.2, image: "https://images.unsplash.com/photo-1605559424843-9073c6e102c6?w=400&q=80", badge: "Popular" },
-  { id: "executive", name: "Executive", description: "Premium vehicle for business travellers",            capacity: 4, luggage: 3, pricePerMile: 3.0, image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80", badge: "Business" },
-  { id: "mpv",       name: "MPV",       description: "Ideal for families, groups & extra luggage",        capacity: 6, luggage: 5, pricePerMile: 3.5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80", badge: "Groups" },
-];
+const defaultContent = {
+  hero: {
+    title: "AliTaxis Norwich",
+    subtitle: "Premium Airport Transfers & Taxi Service",
+    description: "Your reliable partner for long-distance taxi services and airport transfers. Travel in comfort from Norwich to anywhere in the UK.",
+    phone: "077 XXX XXXXXX",
+    email: "Alixxxxxxxxxxxx@gmail.com",
+  },
+  airports: [
+    { name: "Heathrow Airport", code: "LHR", distance: 120, basePrice: 150, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg" },
+    { name: "Gatwick Airport",  code: "LGW", distance: 130, basePrice: 160, estimatedTime: "2h 30m", image: "/airports/gatwick.jpg"  },
+    { name: "Stansted Airport", code: "STN", distance: 65,  basePrice: 80,  estimatedTime: "1h 15m", image: "/airports/stansted.jpg" },
+    { name: "Luton Airport",    code: "LTN", distance: 95,  basePrice: 110, estimatedTime: "1h 45m", image: "/airports/luton.jpg"    },
+  ],
+  vehicles: [
+    { id: "economy",   name: "Economy",   description: "Comfortable saloon for budget-conscious travellers", capacity: 4, luggage: 2, pricePerMile: 1.8, image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&q=80", badge: "Best Value" },
+    { id: "standard",  name: "Standard",  description: "Spacious saloon with extra legroom & comfort",       capacity: 4, luggage: 3, pricePerMile: 2.2, image: "https://images.unsplash.com/photo-1605559424843-9073c6e102c6?w=400&q=80", badge: "Popular"    },
+    { id: "executive", name: "Executive", description: "Premium vehicle for business travellers",            capacity: 4, luggage: 3, pricePerMile: 3.0, image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80", badge: "Business"   },
+    { id: "mpv",       name: "MPV",       description: "Ideal for families, groups & extra luggage",        capacity: 6, luggage: 5, pricePerMile: 3.5, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80", badge: "Groups"     },
+  ],
+  services: [
+    { title: "Airport Transfers", description: "Reliable, punctual transfers to Heathrow, Gatwick, Stansted & Luton with flight monitoring included.", icon: "Plane"       },
+    { title: "Long Distance",     description: "Comfortable travel to any destination across the UK. Fixed prices, no surprises.",                      icon: "MapPin"      },
+    { title: "24/7 Available",    description: "Day or night, weekends or bank holidays — we're always here when you need us.",                         icon: "Clock"       },
+    { title: "Safe & Licensed",   description: "All drivers are DBS checked, fully licensed and insured for your complete peace of mind.",              icon: "Shield"      },
+    { title: "Fixed Prices",      description: "The price quoted is the price you pay. No hidden charges, no surge pricing.",                           icon: "CreditCard"  },
+    { title: "5-Star Rated",      description: "Consistently rated 5 stars by hundreds of satisfied customers across Norwich.",                         icon: "Star"        },
+  ],
+  contact: {
+    phone: "077 XXX XXXXXX",
+    email: "Alixxxxxxxxxxxx@gmail.com",
+    address: "Norwich, UK",
+    hours: "24/7 Available",
+  },
+  footer: {
+    tagline: "Your trusted partner for long-distance taxi services and airport transfers from Norwich.",
+    copyright: `© ${new Date().getFullYear()} AliTaxis Norwich. All rights reserved.`,
+  },
+};
 
-const airportRoutes = [
-  { name: "Heathrow Airport", code: "LHR", distance: 120, basePrice: 150, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg" },
-  { name: "Gatwick Airport",  code: "LGW", distance: 130, basePrice: 160, estimatedTime: "2h 30m", image: "/airports/gatwick.jpg"  },
-  { name: "Stansted Airport", code: "STN", distance: 65,  basePrice: 80,  estimatedTime: "1h 15m", image: "/airports/stansted.jpg" },
-  { name: "Luton Airport",    code: "LTN", distance: 95,  basePrice: 110, estimatedTime: "1h 45m", image: "/airports/luton.jpg"    },
-];
-
-const services = [
-  { icon: <Plane />,     title: "Airport Transfers",  description: "Reliable, punctual transfers to Heathrow, Gatwick, Stansted & Luton with flight monitoring included." },
-  { icon: <MapPin />,    title: "Long Distance",       description: "Comfortable travel to any destination across the UK. Fixed prices, no surprises."                    },
-  { icon: <Clock />,     title: "24/7 Available",      description: "Day or night, weekends or bank holidays — we're always here when you need us."                       },
-  { icon: <Shield />,    title: "Safe & Licensed",     description: "All drivers are DBS checked, fully licensed and insured for your complete peace of mind."             },
-  { icon: <CreditCard />,title: "Fixed Prices",        description: "The price quoted is the price you pay. No hidden charges, no surge pricing."                         },
-  { icon: <Star />,      title: "5-Star Rated",        description: "Consistently rated 5 stars by hundreds of satisfied customers across Norwich."                       },
-];
+const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  Plane: <Plane />, MapPin: <MapPin />, Clock: <Clock />,
+  Shield: <Shield />, CreditCard: <CreditCard />, Star: <Star />,
+};
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen]         = useState(false);
-  const [isBookingOpen, setIsBookingOpen]   = useState(false);
+  const [isMenuOpen, setIsMenuOpen]           = useState(false);
+  const [isBookingOpen, setIsBookingOpen]     = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [activeSection, setActiveSection]   = useState("home");
-  const [isSubmitting, setIsSubmitting]     = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [vehicleTypes, setVehicleTypes]     = useState(defaultVehicleTypes);
+  const [activeSection, setActiveSection]     = useState("home");
+  const [isSubmitting, setIsSubmitting]       = useState(false);
+  const [bookingSuccess, setBookingSuccess]   = useState(false);
+  const [cms, setCms]                         = useState(defaultContent);
 
   const openBooking = () => {
     if (!user) { setShowLoginPrompt(true); return; }
@@ -86,10 +108,10 @@ export default function HomePage() {
       }
     }).catch(() => {});
 
-    // Fetch site content (vehicles, etc.) from CMS
+    // Fetch all site content from CMS
     fetch("/api/content").then(r => r.json()).then(d => {
-      if (d.vehicles && Array.isArray(d.vehicles) && d.vehicles.length > 0) {
-        setVehicleTypes(d.vehicles);
+      if (d.content) {
+        setCms(prev => ({ ...prev, ...d.content }));
       }
     }).catch(() => {});
   }, []);
@@ -224,8 +246,8 @@ export default function HomePage() {
                   </svg>
                 </button>
                 <div className="dropdownMenu">
-                  {["Heathrow Airport", "Gatwick Airport", "Stansted Airport", "Luton Airport"].map(a => (
-                    <button key={a} className="dropdownItem" onClick={() => openAirportBooking(a)}>{a}</button>
+                  {cms.airports.map(a => (
+                    <button key={a.code} className="dropdownItem" onClick={() => openAirportBooking(a.name)}>{a.name}</button>
                   ))}
                 </div>
               </div>
@@ -240,8 +262,8 @@ export default function HomePage() {
 
             {/* Right side */}
             <div className="headerRight">
-              <a href="tel:077XXXXXXXX" className="headerPhone">
-                <Phone /> <span>077 XXX XXXXXX</span>
+              <a href={`tel:${cms.contact.phone}`} className="headerPhone">
+                <Phone /> <span>{cms.contact.phone}</span>
               </a>
               {user ? (
                 <div className="headerUserWrap">
@@ -275,7 +297,7 @@ export default function HomePage() {
                 </button>
               ))}
               <div className="mobileNavFooter">
-                <a href="tel:077XXXXXXXX" className="mobileNavPhone"><Phone /><span>077 XXX XXXXXX</span></a>
+                <a href={`tel:${cms.contact.phone}`} className="mobileNavPhone"><Phone /><span>{cms.contact.phone}</span></a>
                 <button className="btnYellow mobileBookBtn" onClick={() => { setIsMenuOpen(false); openBooking(); }}>
                   Book Now
                 </button>
@@ -302,10 +324,7 @@ export default function HomePage() {
                 <span className="heroTitleYellow">ALITAXIS</span>
                 <span className="heroTitleWhite">NORWICH</span>
               </h1>
-              <p className="heroDesc">
-                Your reliable partner for long-distance taxi services and airport transfers.
-                Travel in comfort from Norwich to anywhere in the UK.
-              </p>
+              <p className="heroDesc">{cms.hero.description}</p>
               <div className="heroBadges">
                 <span className="heroBadgePill"><Clock />24/7 Available</span>
                 <span className="heroBadgePill"><Shield />Licensed & Insured</span>
@@ -315,7 +334,7 @@ export default function HomePage() {
                 <button className="btnYellowLg" onClick={openBooking}>
                   Book Your Ride <ArrowRight />
                 </button>
-                <a href="tel:077XXXXXXXX" className="btnOutlineLg">
+                <a href={`tel:${cms.contact.phone}`} className="btnOutlineLg">
                   <Phone /> Call Now
                 </a>
               </div>
@@ -331,7 +350,7 @@ export default function HomePage() {
                 Reliable transfers to all major UK airports — Heathrow, Gatwick, Stansted & Luton.
               </p>
               <div className="airportGrid">
-                {airportRoutes.map(airport => (
+                {cms.airports.map(airport => (
                   <div key={airport.code} className="airportCard">
                     <p className="airportCardName">
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
@@ -414,7 +433,7 @@ export default function HomePage() {
           </div>
 
           <div className="vehicleGrid">
-            {vehicleTypes.map(v => (
+            {cms.vehicles.map(v => (
               <div key={v.id}
                 className={bookingForm.vehicleType === v.id ? "vehicleCard vehicleCardActive" : "vehicleCard"}
                 onClick={() => setBookingForm({ ...bookingForm, vehicleType: v.id })}>
@@ -491,7 +510,7 @@ export default function HomePage() {
           </div>
 
           <div className="airportCards">
-            {airportRoutes.map(airport => (
+            {cms.airports.map(airport => (
               <div key={airport.code} className="airportSectionCard">
                 <div className="airportImgWrap">
                   <img src={airport.image} alt={airport.name} className="airportImg" />
@@ -541,9 +560,9 @@ export default function HomePage() {
           </div>
 
           <div className="servicesGrid">
-            {services.map((s, i) => (
+            {cms.services.map((s, i) => (
               <div key={i} className="serviceCard">
-                <div className="serviceIconWrap">{s.icon}</div>
+                <div className="serviceIconWrap">{SERVICE_ICONS[s.icon] ?? <Star />}</div>
                 <h3 className="serviceTitle">{s.title}</h3>
                 <p className="serviceDesc">{s.description}</p>
               </div>
@@ -579,28 +598,28 @@ export default function HomePage() {
                   <div className="contactItemIcon"><Phone /></div>
                   <div>
                     <p className="contactItemLabel">Phone</p>
-                    <a href="tel:077XXXXXXXX" className="contactItemValue">077 XXX XXXXXX</a>
+                    <a href={`tel:${cms.contact.phone}`} className="contactItemValue">{cms.contact.phone}</a>
                   </div>
                 </div>
                 <div className="contactItem">
                   <div className="contactItemIcon"><Mail /></div>
                   <div>
                     <p className="contactItemLabel">Email</p>
-                    <a href="mailto:Alixxxxxxxxxxxx@gmail.com" className="contactItemValue">Alixxxxxxxxxxxx@gmail.com</a>
+                    <a href={`mailto:${cms.contact.email}`} className="contactItemValue">{cms.contact.email}</a>
                   </div>
                 </div>
                 <div className="contactItem">
                   <div className="contactItemIcon"><MapPin /></div>
                   <div>
                     <p className="contactItemLabel">Location</p>
-                    <p className="contactItemValue">Norwich, UK</p>
+                    <p className="contactItemValue">{cms.contact.address}</p>
                   </div>
                 </div>
                 <div className="contactItem">
                   <div className="contactItemIcon"><Clock /></div>
                   <div>
                     <p className="contactItemLabel">Hours</p>
-                    <p className="contactItemValue">24/7 Available</p>
+                    <p className="contactItemValue">{cms.contact.hours}</p>
                   </div>
                 </div>
               </div>
@@ -648,7 +667,7 @@ export default function HomePage() {
                   <p className="footerLogoSub">NORWICH</p>
                 </div>
               </div>
-              <p className="footerDesc">Your trusted partner for long-distance taxi services and airport transfers from Norwich.</p>
+              <p className="footerDesc">{cms.footer.tagline}</p>
             </div>
 
             <div>
@@ -668,7 +687,7 @@ export default function HomePage() {
             <div>
               <h4 className="footerHeading">Airport Transfers</h4>
               <ul className="footerList">
-                {airportRoutes.map(a => (
+                {cms.airports.map(a => (
                   <li key={a.code}>
                     <button className="footerLink" onClick={() => openAirportBooking(a.name)}>{a.name}</button>
                   </li>
@@ -679,15 +698,15 @@ export default function HomePage() {
             <div>
               <h4 className="footerHeading">Contact</h4>
               <ul className="footerList">
-                <li className="footerContactItem"><Phone /><span>077 XXX XXXXXX</span></li>
-                <li className="footerContactItem"><Mail /><span>Alixxxxxxxxxxxx@gmail.com</span></li>
-                <li className="footerContactItem"><MapPin /><span>Norwich, UK</span></li>
+                <li className="footerContactItem"><Phone /><span>{cms.contact.phone}</span></li>
+                <li className="footerContactItem"><Mail /><span>{cms.contact.email}</span></li>
+                <li className="footerContactItem"><MapPin /><span>{cms.contact.address}</span></li>
               </ul>
             </div>
           </div>
 
           <div className="footerBottom">
-            <p className="footerCopy">© {new Date().getFullYear()} AliTaxis Norwich. All rights reserved.</p>
+            <p className="footerCopy">{cms.footer.copyright}</p>
             <div className="footerBottomRight">
               <span>Licensed & Insured</span>
               <span className="footerBottomDot" />
@@ -818,7 +837,7 @@ export default function HomePage() {
                       <label className="formLabel">Vehicle Type</label>
                       <select className="bookingSelect" value={bookingForm.vehicleType}
                         onChange={e => setBookingForm({ ...bookingForm, vehicleType: e.target.value })}>
-                        {vehicleTypes.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
+                        {cms.vehicles.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
                       </select>
                     </div>
                   </div>
@@ -859,8 +878,8 @@ export default function HomePage() {
                     <span className="priceEstimateLabel">Estimated Price</span>
                     <span className="priceEstimateValue">
                       £{(() => {
-                        const v = vehicleTypes.find(v => v.id === bookingForm.vehicleType);
-                        const a = airportRoutes.find(a => bookingForm.dropoffLocation.toLowerCase().includes(a.name.toLowerCase()));
+                        const v = cms.vehicles.find(v => v.id === bookingForm.vehicleType);
+                        const a = cms.airports.find(a => bookingForm.dropoffLocation.toLowerCase().includes(a.name.toLowerCase()));
                         if (a && v) return Math.round(a.basePrice * (v.pricePerMile / 2));
                         return "—";
                       })()}

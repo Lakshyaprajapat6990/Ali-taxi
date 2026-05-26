@@ -7,10 +7,11 @@ const VEHICLE_PRICES: Record<string, number> = {
   economy: 1.8, standard: 2.2, executive: 3.0, mpv: 3.5,
 };
 const AIRPORT_ROUTES: Record<string, { basePrice: number }> = {
-  stansted: { basePrice: 80 },
-  gatwick:  { basePrice: 160 },
-  heathrow: { basePrice: 150 },
-  luton:    { basePrice: 110 },
+  heathrow:   { basePrice: 250 },
+  gatwick:    { basePrice: 270 },
+  stansted:   { basePrice: 160 },
+  luton:      { basePrice: 210 },
+  manchester: { basePrice: 410 },
 };
 
 function toPlain(doc: any) {

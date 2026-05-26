@@ -12,11 +12,11 @@ export const defaultContent = {
     email: "info@alitaxis.com",
   },
   airports: [
-    { name: "Heathrow Airport", code: "LHR", distance: 120, basePrice: 150, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg" },
-    { name: "Gatwick Airport",  code: "LGW", distance: 130, basePrice: 160, estimatedTime: "2h 30m", image: "/airports/gatwick.jpg"  },
-    { name: "Stansted Airport", code: "STN", distance: 65,  basePrice: 80,  estimatedTime: "1h 15m", image: "/airports/stansted.jpg" },
-    { name: "Luton Airport",    code: "LTN", distance: 95,  basePrice: 110, estimatedTime: "1h 45m", image: "/airports/luton.jpg"    },
-    { name: "Manchester Airport",code:"MAN", distance: 210, basePrice: 260, estimatedTime: "3h 30m", image: "/airports/manchester.jpg"},
+    { name: "Heathrow Airport",  code: "LHR", distance: 142, basePrice: 250, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg"  },
+    { name: "Gatwick Airport",   code: "LGW", distance: 145, basePrice: 270, estimatedTime: "2h 30m", image: "/airports/gatwick.jpg"   },
+    { name: "Stansted Airport",  code: "STN", distance: 90,  basePrice: 160, estimatedTime: "1h 15m", image: "/airports/stansted.jpg"  },
+    { name: "Luton Airport",     code: "LTN", distance: 99,  basePrice: 210, estimatedTime: "1h 45m", image: "/airports/luton.jpg"     },
+    { name: "Manchester Airport",code: "MAN", distance: 237, basePrice: 410, estimatedTime: "3h 30m", image: "/airports/manchester.jpg"},
   ],
   vehicles: [
     { id: "economy",   name: "Economy",   description: "Comfortable saloon for budget-conscious travellers", capacity: 4, luggage: 2, pricePerMile: 1.8, image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&q=80", badge: "Best Value" },

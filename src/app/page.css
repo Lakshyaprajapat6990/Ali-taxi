@@ -448,9 +448,10 @@
 
 @media (min-width: 768px) {
   .hero {
-    height: 780px;
-    min-height: unset;
+    height: auto;
+    min-height: calc(100vh - 64px);
     padding-top: 64px;
+    align-items: center;
   }
 }
 
@@ -459,6 +460,7 @@
     height: 100vh;
     min-height: unset;
     padding-top: 72px;
+    align-items: center;
   }
 }
 
@@ -498,11 +500,11 @@
 }
 
 @media (min-width: 768px) {
-  .heroContent { padding: 50px 2rem 40px; align-items: center; }
+  .heroContent { padding: 32px 2rem; align-items: center; }
 }
 
 @media (min-width: 1280px) {
-  .heroContent { padding: 0 2rem; }
+  .heroContent { padding: 32px 2rem; }
 }
 
 .heroGrid {

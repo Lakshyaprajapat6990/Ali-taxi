@@ -455,7 +455,7 @@
 
 @media (min-width: 1280px) {
   .hero {
-    height: auto;
+    height: 100vh;
     padding-top: 72px;
     align-items: center;
   }
@@ -501,7 +501,7 @@
 }
 
 @media (min-width: 1280px) {
-  .heroContent { padding: 40px 2rem; }
+  .heroContent { padding: 0 2rem; }
 }
 
 .heroGrid {

@@ -110,21 +110,21 @@ export async function POST(request: NextRequest) {
 
     const populated = await booking.populate("userId", "name email phone");
 
-    // Notify owner + confirm to customer (non-blocking)
-    void sendMail({
-      to: OWNER_EMAIL,
-      replyTo: customerEmail,
-      subject: `New booking request from ${customerName}`,
-      html: emailLayout("New booking request", `
-        <p><strong>Customer:</strong> ${customerName}</p>
-        <p><strong>Email:</strong> ${customerEmail}</p>
-        <p><strong>Phone:</strong> ${customerPhone}</p>
-        ${bookingSummary(booking)}
-        ${specialRequests ? `<p><strong>Special requests:</strong> ${specialRequests}</p>` : ""}
-      `),
-    });
-    if (customerEmail) {
-      void sendMail({
+    // Send emails BEFORE responding (serverless freezes after the response)
+    await Promise.allSettled([
+      sendMail({
+        to: OWNER_EMAIL,
+        replyTo: customerEmail,
+        subject: `New booking request from ${customerName}`,
+        html: emailLayout("New booking request", `
+          <p><strong>Customer:</strong> ${customerName}</p>
+          <p><strong>Email:</strong> ${customerEmail}</p>
+          <p><strong>Phone:</strong> ${customerPhone}</p>
+          ${bookingSummary(booking)}
+          ${specialRequests ? `<p><strong>Special requests:</strong> ${specialRequests}</p>` : ""}
+        `),
+      }),
+      customerEmail ? sendMail({
         to: customerEmail,
         subject: "Your booking request — AliTaxis Norwich",
         html: emailLayout(`Thanks, ${customerName}! Your booking is being processed.`, `
@@ -133,8 +133,8 @@ export async function POST(request: NextRequest) {
           <p>Status: <strong>Pending confirmation</strong></p>
           <p>— AliTaxis Norwich</p>
         `),
-      });
-    }
+      }) : Promise.resolve(),
+    ]);
 
     return NextResponse.json(toPlain(populated), { status: 201 });
   } catch (error) {
@@ -163,7 +163,7 @@ export async function PATCH(request: NextRequest) {
     const driverAssigned = driverName || driverPhone || taxiNumber;
     if (booking.customerEmail && (status !== undefined || driverAssigned)) {
       const statusLabel = status ? String(status).charAt(0).toUpperCase() + String(status).slice(1) : "Updated";
-      void sendMail({
+      await sendMail({
         to: booking.customerEmail,
         subject: `Your booking has been updated — ${statusLabel}`,
         html: emailLayout(`Hi ${booking.customerName}, your booking is now: ${statusLabel}`, `

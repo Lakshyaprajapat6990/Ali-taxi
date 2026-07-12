@@ -20,30 +20,33 @@ export async function POST(request: NextRequest) {
 
     const contact = await Contact.create({ name, email, phone, message, status: "new" });
 
-    // Fire off emails (non-blocking — never fail the request if email breaks)
+    // Send emails BEFORE responding — on serverless the function can be frozen
+    // right after the response, so fire-and-forget would never actually send.
     const safeMessage = String(message).replace(/\n/g, "<br/>");
-    void sendMail({
-      to: OWNER_EMAIL,
-      replyTo: email,
-      subject: `New contact message from ${name}`,
-      html: emailLayout("New website enquiry", `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
-        <p><strong>Message:</strong></p>
-        <p>${safeMessage}</p>
-      `),
-    });
-    void sendMail({
-      to: email,
-      subject: "We've received your message — AliTaxis Norwich",
-      html: emailLayout(`Thanks for getting in touch, ${name}!`, `
-        <p>We've received your message and one of our team will get back to you shortly.</p>
-        <p style="background:#f4f4f5;padding:12px;border-radius:8px;"><em>${safeMessage}</em></p>
-        <p>For urgent bookings, please call us directly.</p>
-        <p>— AliTaxis Norwich</p>
-      `),
-    });
+    await Promise.allSettled([
+      sendMail({
+        to: OWNER_EMAIL,
+        replyTo: email,
+        subject: `New contact message from ${name}`,
+        html: emailLayout("New website enquiry", `
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
+          <p><strong>Message:</strong></p>
+          <p>${safeMessage}</p>
+        `),
+      }),
+      sendMail({
+        to: email,
+        subject: "We've received your message — AliTaxis Norwich",
+        html: emailLayout(`Thanks for getting in touch, ${name}!`, `
+          <p>We've received your message and one of our team will get back to you shortly.</p>
+          <p style="background:#f4f4f5;padding:12px;border-radius:8px;"><em>${safeMessage}</em></p>
+          <p>For urgent bookings, please call us directly.</p>
+          <p>— AliTaxis Norwich</p>
+        `),
+      }),
+    ]);
 
     return NextResponse.json(toPlain(contact), { status: 201 });
   } catch (error) {

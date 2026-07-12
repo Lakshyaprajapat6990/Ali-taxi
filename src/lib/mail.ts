@@ -47,6 +47,32 @@ function getTransporter(): nodemailer.Transporter | null {
   return cachedTransporter;
 }
 
+/** Returns non-secret info about the current SMTP configuration. */
+export function mailStatus() {
+  const maskedUser = SMTP_USER ? SMTP_USER.replace(/(.{2}).*(@.*)/, "$1***$2") : null;
+  return {
+    configured: isConfigured,
+    host: SMTP_HOST ?? null,
+    port: SMTP_PORT ?? null,
+    user: maskedUser,
+    from: FROM || null,
+    contactTo: OWNER_EMAIL || null,
+    hasPassword: Boolean(SMTP_PASS),
+  };
+}
+
+/** Verifies the SMTP connection/credentials without sending mail. */
+export async function verifyMail(): Promise<{ ok: boolean; error?: string }> {
+  const transporter = getTransporter();
+  if (!transporter) return { ok: false, error: "SMTP not configured (missing SMTP_HOST/SMTP_USER/SMTP_PASS)" };
+  try {
+    await transporter.verify();
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+}
+
 interface MailOptions {
   to: string;
   subject: string;

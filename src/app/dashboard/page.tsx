@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import {
   Plane, MapPin, Calendar, Clock, Users, Luggage,
   CheckCircle, AlertCircle, XCircle, LogOut, ArrowRight,
-  Navigation, Phone, Mail, RefreshCw, Plus,
+  Navigation, Phone, Mail, RefreshCw, Plus, User, Car,
 } from "lucide-react";
 
 interface Booking {
@@ -239,6 +239,41 @@ export default function UserDashboard() {
                     </span>
                     <p style={{ margin: 0, fontSize: "0.7rem", color: "#374151" }}>{formatDate(b.createdAt)}</p>
                   </div>
+
+                  {/* Assigned driver — visible right on the card */}
+                  {(b.driverName || b.driverPhone || b.taxiNumber) ? (
+                    <div style={{
+                      gridColumn: "1 / -1", marginTop: 4, paddingTop: 14,
+                      borderTop: "1px solid rgba(255,255,255,0.06)",
+                      display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 20px",
+                    }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "0.72rem", fontWeight: 700, color: "#60a5fa", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                        <User size={13} /> Assigned Driver
+                      </span>
+                      {b.driverName && (
+                        <span style={{ fontSize: "0.84rem", color: "#e5e7eb", fontWeight: 600 }}>{b.driverName}</span>
+                      )}
+                      {b.driverPhone && (
+                        <a href={`tel:${b.driverPhone}`} onClick={e => e.stopPropagation()} style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "0.84rem", color: "#60a5fa", textDecoration: "none" }}>
+                          <Phone size={12} />{b.driverPhone}
+                        </a>
+                      )}
+                      {b.taxiNumber && (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "0.84rem", color: "#eab308", fontWeight: 700 }}>
+                          <Car size={12} />{b.taxiNumber}
+                        </span>
+                      )}
+                    </div>
+                  ) : b.status === "confirmed" ? (
+                    <div style={{
+                      gridColumn: "1 / -1", marginTop: 4, paddingTop: 14,
+                      borderTop: "1px solid rgba(255,255,255,0.06)",
+                    }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "0.78rem", color: "#eab308" }}>
+                        <User size={13} /> Driver being assigned — check back soon
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               );
             })}

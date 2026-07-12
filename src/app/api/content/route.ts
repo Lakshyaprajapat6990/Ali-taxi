@@ -8,7 +8,7 @@ export const defaultContent = {
     title: "AliTaxis Norwich",
     subtitle: "Premium Airport Transfers & Taxi Service",
     description: "Professional, reliable taxi service covering all major UK airports from Norwich. Fixed prices, no hidden fees.",
-    phone: "07700 000000",
+    phone: "07758106231",
     email: "book@alitaxisnorwich.com",
   },
   airports: [
@@ -33,14 +33,14 @@ export const defaultContent = {
     { title: "5-Star Rated",       description: "Consistently rated 5 stars by hundreds of satisfied customers across Norwich.",                          icon: "Star"       },
   ],
   contact: {
-    phone: "07700 000000",
+    phone: "07758106231",
     email: "book@alitaxisnorwich.com",
     address: "Norwich, Norfolk, UK",
     hours: "24/7 — Always Available",
   },
   footer: {
-    tagline: "Norwich's most trusted taxi and airport transfer service.",
-    copyright: "© 2024 AliTaxis Norwich. All rights reserved.",
+    tagline: "Your trusted partner for long-distance taxi services and airport transfers from Norwich.",
+    copyright: `© ${new Date().getFullYear()} AliTaxis Norwich. All rights reserved.`,
   },
 };
 

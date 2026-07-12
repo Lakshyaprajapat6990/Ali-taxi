@@ -9,7 +9,7 @@ export const defaultContent = {
     subtitle: "Premium Airport Transfers & Taxi Service",
     description: "Professional, reliable taxi service covering all major UK airports from Norwich. Fixed prices, no hidden fees.",
     phone: "07700 000000",
-    email: "info@alitaxis.com",
+    email: "book@alitaxisnorwich.com",
   },
   airports: [
     { name: "Heathrow Airport",  code: "LHR", distance: 142, basePrice: 250, estimatedTime: "2h 15m", image: "/airports/heathrow.jpg"  },
@@ -34,7 +34,7 @@ export const defaultContent = {
   ],
   contact: {
     phone: "07700 000000",
-    email: "info@alitaxis.com",
+    email: "book@alitaxisnorwich.com",
     address: "Norwich, Norfolk, UK",
     hours: "24/7 — Always Available",
   },

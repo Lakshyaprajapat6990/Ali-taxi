@@ -371,7 +371,7 @@ export default function UserDashboard() {
                   <Phone size={14} /> Call AliTaxis
                 </a>
               )}
-              <a href="mailto:alitaxis@example.com" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "rgba(255,255,255,0.05)", color: "#d1d5db", border: "1px solid rgba(255,255,255,0.08)", fontWeight: 600, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
+              <a href="mailto:book@alitaxisnorwich.com" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, background: "rgba(255,255,255,0.05)", color: "#d1d5db", border: "1px solid rgba(255,255,255,0.08)", fontWeight: 600, borderRadius: 10, padding: "12px", textDecoration: "none", fontSize: "0.88rem" }}>
                 <Mail size={14} /> Email Us
               </a>
             </div>

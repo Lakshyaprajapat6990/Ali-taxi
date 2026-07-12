@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import { getSession } from "@/lib/auth";
+import { sendMail, emailLayout, OWNER_EMAIL } from "@/lib/mail";
+
+function bookingSummary(b: any): string {
+  return `
+    <p><strong>Pickup:</strong> ${b.pickupLocation}</p>
+    <p><strong>Dropoff:</strong> ${b.dropoffLocation}</p>
+    <p><strong>Date &amp; time:</strong> ${b.pickupDate} at ${b.pickupTime}</p>
+    <p><strong>Passengers:</strong> ${b.passengers} &nbsp; <strong>Luggage:</strong> ${b.luggage}</p>
+    <p><strong>Vehicle:</strong> ${b.vehicleType}</p>
+    <p><strong>Estimated price:</strong> £${b.price}</p>
+  `;
+}
 
 const VEHICLE_PRICES: Record<string, number> = {
   economy: 1.8, standard: 2.2, executive: 3.0, mpv: 3.5,
@@ -97,6 +109,33 @@ export async function POST(request: NextRequest) {
     });
 
     const populated = await booking.populate("userId", "name email phone");
+
+    // Notify owner + confirm to customer (non-blocking)
+    void sendMail({
+      to: OWNER_EMAIL,
+      replyTo: customerEmail,
+      subject: `New booking request from ${customerName}`,
+      html: emailLayout("New booking request", `
+        <p><strong>Customer:</strong> ${customerName}</p>
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Phone:</strong> ${customerPhone}</p>
+        ${bookingSummary(booking)}
+        ${specialRequests ? `<p><strong>Special requests:</strong> ${specialRequests}</p>` : ""}
+      `),
+    });
+    if (customerEmail) {
+      void sendMail({
+        to: customerEmail,
+        subject: "Your booking request — AliTaxis Norwich",
+        html: emailLayout(`Thanks, ${customerName}! Your booking is being processed.`, `
+          <p>We've received your booking request. Our team will confirm your driver details shortly.</p>
+          ${bookingSummary(booking)}
+          <p>Status: <strong>Pending confirmation</strong></p>
+          <p>— AliTaxis Norwich</p>
+        `),
+      });
+    }
+
     return NextResponse.json(toPlain(populated), { status: 201 });
   } catch (error) {
     console.error("POST /api/bookings error:", error);
@@ -119,6 +158,28 @@ export async function PATCH(request: NextRequest) {
     ).populate("userId", "name email phone");
 
     if (!booking) return NextResponse.json({ error: "Booking not found" }, { status: 404 });
+
+    // Let the customer know their booking was updated (non-blocking)
+    const driverAssigned = driverName || driverPhone || taxiNumber;
+    if (booking.customerEmail && (status !== undefined || driverAssigned)) {
+      const statusLabel = status ? String(status).charAt(0).toUpperCase() + String(status).slice(1) : "Updated";
+      void sendMail({
+        to: booking.customerEmail,
+        subject: `Your booking has been updated — ${statusLabel}`,
+        html: emailLayout(`Hi ${booking.customerName}, your booking is now: ${statusLabel}`, `
+          ${bookingSummary(booking)}
+          ${driverAssigned ? `
+            <p style="background:#f4f4f5;padding:12px;border-radius:8px;">
+              <strong>Your driver details:</strong><br/>
+              ${booking.driverName ? `Driver: ${booking.driverName}<br/>` : ""}
+              ${booking.driverPhone ? `Phone: ${booking.driverPhone}<br/>` : ""}
+              ${booking.taxiNumber ? `Taxi: ${booking.taxiNumber}` : ""}
+            </p>` : ""}
+          <p>— AliTaxis Norwich</p>
+        `),
+      });
+    }
+
     return NextResponse.json(toPlain(booking));
   } catch (error) {
     console.error("PATCH /api/bookings error:", error);
